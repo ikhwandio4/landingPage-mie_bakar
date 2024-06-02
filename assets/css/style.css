@@ -1,0 +1,575 @@
+@import url('https://fonts.googleapis.com/css2?family=Ovo&family=Quicksand:wght@500;700&display=swap');
+/* MAIN-COLOR =  #ff9000 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Ovo", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-bar{
+  width: 100%;
+  padding: 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+}
+
+.logo img{
+  width: 100px;
+}
+
+nav{
+  display: flex;
+  align-items: center;
+}
+
+nav img{
+  width: 100px;
+}
+
+nav ul {
+  display: flex;
+}
+ 
+nav li {
+  list-style-type: none;
+}
+ 
+nav a {
+  text-decoration: none;
+  color:#047104;
+  font-size: 23px;
+  font-weight: 500;
+  padding: 20px;
+  border-radius: 200px;
+  transition: all .2s ease-in-out;
+}
+ 
+nav a:hover {
+  color: white;
+  background-color: #047104;
+}
+
+.jumbotron::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.jumbotron {
+  background-image: url(../img/resto-header.jpg);
+  background-size: cover;
+  position: relative;
+  margin-top: -50px;
+  color: white;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.jumbotron h1{
+  margin-top: 150px;
+  z-index: 1;
+}
+
+.jumbotron a{
+  text-decoration: none;
+  padding: 20px;
+  font-size: 1.5em;
+  border-radius: 200px;
+  color: white;
+  background-color: #047104;
+  transition: all .2s ease-in-out;
+  z-index: 1;
+}
+
+.jumbotron a:hover{
+  color: #047104;
+  background-color: white;
+}
+
+main{
+  padding: 20px;
+  display: flex;
+  gap: 1.5rem;
+}
+
+#content{
+  flex: 5;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem 2rem;
+}
+
+.judul h2, h3, h4{
+  color: #035c30;
+}
+.judul h2{
+  text-align: center;
+  font-size: 40px;
+}
+.judul h3{
+  text-align: center;
+  font-size: 30px;
+}
+.judul h4{
+  text-align: center;
+  font-size: 20px;
+}
+
+
+/* produk */
+#product {
+  background-color: #f8f8f8;
+  padding: 80px 0;
+}
+
+.section-title h2 {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.galery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image {
+  position: relative;
+  margin: 15px;
+}
+
+.image img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.image .product-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.image:hover .product-info {
+  opacity: 1;
+}
+
+.image:hover img {
+  transform: scale(1.1);
+}
+
+
+/* MENU  PILIHAN*/
+.galery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  cursor: pointer;
+}
+
+.image img{
+  width: 100%;
+}
+
+.zoom {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+.zoom-content {
+  margin-top: 10%;
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+/* MENU FAV  */
+.menu-fav{
+  text-align: center;
+}
+
+.list-menu{
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.menu-text{
+  flex: 1;
+  text-align: justify;
+}
+
+.menu-image{
+  flex: 1;
+}
+
+.menu-image img{
+  width: 70%;
+  height: auto;
+}
+
+/* TESTIMONI */
+.testi-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); 
+}
+
+.testi-bg{
+  background-image: url(../img/locavore.jpg);
+  background-size: cover;
+  height: 500px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.testi-client{
+  color: white;
+  font-size: 1.5em;
+  font-style: italic;
+  z-index: 1;
+}
+
+.testi-client img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: auto;
+}
+
+/* KONTAK */
+.kontak {  
+  width: 100%;
+  margin-inline: auto;
+  padding: 2rem 4rem;
+  flex: 1;
+ 
+  display: flex;
+  align-items: center;
+}
+
+/* SOSMED */
+.side {
+  margin-left: -105px;
+  margin-right: 40px;
+}
+
+.sosmed {
+  height: 100%;
+  display: flex;
+}
+ 
+.sosmed ul {
+  padding: 2rem 1rem;
+  margin: auto;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background-color:#047104;
+ 
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+ 
+.sosmed li {
+  list-style-type: none;
+}
+ 
+.sosmed li a {
+  text-decoration: none;
+  font-size: 1.5rem;
+  color: white;
+  transition: all .1s ease-in-out;
+}
+
+.sosmed li a:hover {
+  color: skyblue;
+}
+
+/* EMAIL  */
+.email{
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.kontak form {
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  width: 100%;
+  max-width: 300px;
+}
+
+button {
+  background-color: #047104;
+  color: #fff;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%; 
+  max-width: 300px; 
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+aside{
+  flex: 1;
+}
+
+/* PROFILE CARD  */
+.profile{
+  background-color: #047104;
+  color: white;
+}
+
+.card{
+  box-shadow: 8px 8px 6px 0 rgba(255, 144, 0, 0.2);
+  border-radius: px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.profile header{
+  text-align: center;
+}
+
+.profile img{
+  width: 200px;
+}
+
+.bio{
+  text-align: center;
+}
+
+.bio h3{
+  color: white;
+}
+
+table th, td{
+  text-align: left;
+}
+
+footer{
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  background-color: #047104;
+  padding: 5px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 1200px) {
+  main {
+    flex-flow: column nowrap;
+  }
+
+  main aside {
+    align-self: center;
+  }
+}
+ 
+@media screen and (max-width: 768px) {
+
+  .nav-bar{
+    flex-direction: column;
+  }
+
+  nav a:hover{
+    padding: 10px 20px;
+  }
+
+  main {
+    flex-flow: column nowrap;
+  }
+
+  .list-menu{
+    align-items: center;
+  }
+
+  main aside{
+    flex-direction: column;
+  }
+
+
+}
+
+@media screen and (max-width: 450px) {
+  .jumbotron{
+    max-height: 500px;
+    margin-top: 20px;
+  }
+
+  .jumbotron h1{
+    font-size: 20px;
+    padding: 0 20px;
+    align-items: center;
+  }
+
+  .jumbotron a{
+    padding: 10px;
+    font-size: 20px;
+  }
+  
+  section .list-menu{
+  flex-direction: column;
+  }
+
+  nav ul{
+    padding-right: 20px;
+  }
+
+  nav a{
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+
+  .menu-fav{
+    padding-top: 30px;
+  }
+
+  .testi-client{
+    font-size: 18px;
+  }
+
+  #kontak{
+    padding-top: 0;
+  }
+
+  .kontak{
+    flex-direction: column;
+    width: 80%;
+  }
+
+  .side{
+    display: inline;
+    margin-bottom: 20px;
+    margin-left: 45px;
+  }
+
+  .sosmed{
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  .sosmed ul {
+    padding: 1rem 1rem;
+    border-radius: 10px;
+    background-color:#047104;
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  .email{
+    width: 300px;
+  }
+  
+  footer{
+    font-size: 15px;
+    padding: 10ox;
+  }
+}

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mie Bakar Celaket</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="nav-bar">
+      <div class="logo">
+        <img src="assets/img/logo.jpeg" alt="">
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="#beranda">Beranda</a>
+          </li>
+          <li>
+            <a href="#menu">Menu</a>
+          </li>
+          <li>
+            <a href="#menu-fav">Best Seller</a>
+          </li>
+          <li>
+          <li>
+            <a href="#testimoni">Testimoni</a>
+          </li>
+          <li>
+            <a href="#kontak">Kontak</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div id="beranda" class="jumbotron">
+      <h1>Selamat datang di Mie Bakar Celaket,<br> rasakan kenikmatan masakan khas nusantara dengan perpaduan western yang enak! </h1>
+      <a href="#">Pesan Sekarang!</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Konten artikel -->
+    <div class="content">
+      <article id="menu" class="card judul">
+        <h2>Menu</h2>
+        <p>
+          Mie Bakar Celaket telah hadir sejak tahun 2016, menawarkan makanan dengan perpaduan unik antara Bakmie Jawa dengan cita rasa Western. Kunjungi Resto kami sekarang !
+        </p>
+
+        <section>
+          <h3>Menu Pilihan</h3>
+          <div class="galery">
+            <div class="image">
+              <img src="assets/img/1.jpeg" alt="">
+            </div>
+            <div class="image">
+              <img src="assets/img/2.jpeg" alt="">
+            </div>
+            <div class="image">
+              <img src="assets/img/3.jpeg" alt="">
+            </div>
+            <div class="image">
+              <img src="assets/img/4.jpeg" alt="">
+            </div>
+            <div class="image">
+              <img src="assets/img/5.jpeg" alt="">
+            </div>
+            <div class="image">
+              <img src="assets/img/udang.jpg" alt="">
+            </div>
+          </div>
+          <div class="zoom" id="zoom">
+            <span class="close">&times;</span>
+            <img class="zoom-content" id="zoomImg">
+          </div>
+        </section>
+      </article>
+      <article id="menu-fav" class="menu-fav">
+        <h2>Menu Favorit Bersama</h2> 
+
+        <section id="">
+          <div class="">
+            
+            <div class="list-menu card">
+              <div class="menu-text">
+                <h4>Mie Bakar Sosis</h4>
+                <p>Mie Bakar Sosis dan Mozarella merupakan hidangan istimewa yang menghadirkan perpaduan rasa gurih dan lumer di mulut yang tak tertahankan. Perpaduan sosis yang gurih dengan lelehan keju mozzarella yang creamy menciptakan sensasi rasa yang unik dan istimewa..</p>
+
+              </div>
+              <div class="menu-image">
+                <img src="assets/img/sosis.jpg" alt="Nasi Liwet">
+              </div>
+            </div>
+            <div class="list-menu card">
+              <div class="menu-text">
+                <h4>Mie Bakar Bakso</h4>
+                <p>Mie Bakar Bakso dan Mozarella menghadirkan perpaduan rasa gurih dan lumer yang tak tertahankan, memanjakan lidah para pecinta kuliner. Perpaduan bakso yang kenyal dan gurih dengan lelehan keju mozzarella yang creamy menciptakan sensasi rasa yang unik dan istimewa..</p>
+               
+              </div>
+              <div class="menu-image">
+                <img src="assets/img/baksobs.jpg" alt="Parasmanan">
+              </div>
+            </div>
+            <div class="list-menu card">
+              <div class="menu-text">
+                <h4>Mie Bakar Udang </h4>
+                  <p>Mie Bakar Udang dan Mozarella menghadirkan perpaduan rasa dan tekstur yang unik dan istimewa, menggoda para pecinta kuliner dengan perpaduan lembutnya daging udang, gurihnya mie bakar, dan lumernya keju mozzarella..</p>
+              </div>
+              <div class="menu-image">
+                <img src="assets/img/udangBS.jpg" alt="Coffee Break">
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+
+      <!-- <article id="testimoni" class="card judul">
+        <div class="testi-bg">
+          <div class="testi-client">
+            <h2>Testimoni</h2>
+            <p>"Masakan Ghusfood Resto sangat cocok untuk lidah saya, masakan nusantaranya beda banget rasanya lebih mantap!"</p>
+            <img src="assets/img/mba-dina.png" alt="Mba Dina">
+            <p>Mba Dina</p>
+          </div>
+        </div>
+      </article> -->
+
+
+
+      <section id="testimoni" style="padding: 50px 0; background: #f9f9f9;">
+        <div class="slide-container swiper">
+          <div class="section-title" style="text-align: center; margin-bottom: 20px;">
+            <h2 style="font-size: 2rem;">Testimonial</h2>
+          </div>
+          <div class="slide-content" style="display: flex; justify-content: center;">
+            <div class="card-wrapper swiper-wrapper" style="display: flex; gap: 20px;">
+              <div class="card swiper-slide" style="background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s ease;">
+                <div class="image-content" style="position: relative;">
+                  <span class="overlay" id="overlay-1"></span>
+                  <div class="card-image" style="width: 100%; overflow: hidden;">
+                    <img src="./assets/img/udangBS.jpg" alt="" class="card-img" style="width: 100%; display: block;">
+                  </div>
+                </div>
+                <div class="card-content" style="padding: 20px; text-align: center;">
+                  <h2 class="name" style="font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">Costumer 1</h2>
+                  <p class="coment" style="font-size: 1rem; color: #555;">
+                    <sup><i class="fa fa-quote-left"></i></sup>&emsp;
+                    Udah pernah nyobain beli di toko lain, tapi kaget banget ternyata disini harganya lebih murah!!. hehehe😁😉&emsp;
+                    <sup><i class="fa fa-quote-right"></i></sup>
+                  </p>
+                </div>
+              </div>
+              <div class="card swiper-slide" style="background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s ease;">
+                <div class="image-content" style="position: relative;">
+                  <span class="overlay" id="overlay-1"></span>
+                  <div class="card-image" style="width: 100%; overflow: hidden;">
+                    <img src="./assets/img/bakso.png" alt="" class="card-img" style="width: 100%; display: block;">
+                  </div>
+                </div>
+                <div class="card-content" style="padding: 20px; text-align: center;">
+                  <h2 class="name" style="font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">Costumer 1</h2>
+                  <p class="coment" style="font-size: 1rem; color: #555;">
+                    <sup><i class="fa fa-quote-left"></i></sup>&emsp;
+                    Udah pernah nyobain beli di toko lain, tapi kaget banget ternyata disini harganya lebih murah!!. hehehe😁😉&emsp;
+                    <sup><i class="fa fa-quote-right"></i></sup>
+                  </p>
+                </div>
+              </div>
+              <div class="card swiper-slide" style="background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s ease;">
+                <div class="image-content" style="position: relative;">
+                  <span class="overlay" id="overlay-1"></span>
+                  <div class="card-image" style="width: 100%; overflow: hidden;">
+                    <img src="./assets/img/sosis.jpg" alt="" class="card-img" style="width: 100%; display: block;">
+                  </div>
+                </div>
+                <div class="card-content" style="padding: 20px; text-align: center;">
+                  <h2 class="name" style="font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">Costumer 1</h2>
+                  <p class="coment" style="font-size: 1rem; color: #555;">
+                    <sup><i class="fa fa-quote-left"></i></sup>&emsp;
+                    Udah pernah nyobain beli di toko lain, tapi kaget banget ternyata disini harganya lebih murah!!. hehehe😁😉&emsp;
+                    <sup><i class="fa fa-quote-right"></i></sup>
+                  </p>
+                </div>
+              </div>
+              <div class="card swiper-slide" style="background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s ease;">
+                <div class="image-content" style="position: relative;">
+                  <span class="overlay" id="overlay-1"></span>
+                  <div class="card-image" style="width: 100%; overflow: hidden;">
+                    <img src="./assets/img/bakso.png" alt="" class="card-img" style="width: 100%; display: block;">
+                  </div>
+                </div>
+                <div class="card-content" style="padding: 20px; text-align: center;">
+                  <h2 class="name" style="font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">Costumer 1</h2>
+                  <p class="coment" style="font-size: 1rem; color: #555;">
+                    <sup><i class="fa fa-quote-left"></i></sup>&emsp;
+                    Udah pernah nyobain beli di toko lain, tapi kaget banget ternyata disini harganya lebih murah!!. hehehe😁😉&emsp;
+                    <sup><i class="fa fa-quote-right"></i></sup>
+                  </p>
+                </div>
+              </div>
+              <!-- Additional cards here -->
+            </div>
+          </div>
+          <div class="swiper-button-next swiper-navBtn" style="color: #000; transition: color 0.3s;"></div>
+          <div class="swiper-button-prev swiper-navBtn" style="color: #000; transition: color 0.3s;"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script>
+          // Initialize Swiper
+          var swiper = new Swiper('.swiper', {
+            loop: true,
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+              el: '.swiper-pagination',
+              clickable: true,
+            },
+          });
+        </script>
+      </section>
+      
+    
+      <!-- <article id="testimoni" class="card judul">
+        <div class="testi-bg">
+          <div class="testi-client" style="text-align: center;">
+            <h2 style="font-size: 2rem;">Testimoni</h2>
+            <p>"Masakan Ghusfood Resto sangat cocok untuk lidah saya, masakan nusantaranya beda banget rasanya lebih mantap!"</p>
+            <img src="assets/img/mba-dina.png" alt="Mba Dina" style="display: block; margin: 0 auto;">
+            <p>Mba Dina</p>
+          </div>
+        </div>
+      </article> -->
+
+      <article id="kontak" class="card judul">
+        <h2>Ulasan pelanggan</h2>
+        <div class="kontak">
+          <div class="side">
+            <div class="sosmed">
+              <ul>
+                <li>
+                  <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-telegram"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="email">
+            <form>
+              <div class="form-group">
+                <label for="nama">Nama</label>
+                <input type="text" id="nama" name="nama" placeholder="Masukan nama anda" required>
+              </div>
+              <div class="form-group">
+                <label for="no telp">No telp</label>
+                <input type="text" id="email" name="no telp" placeholder="Masukan nomer telp anda" required>
+              </div>
+              <div class="form-group">
+                <label for="ulasan">Ulasan</label>
+                <textarea id="ulasan" name="ulasan" rows="10" placeholder="Masukan ulasan anda disini" required></textarea>
+              </div>
+              <button type="submit">Kirim</button>
+            </form>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Konten samping -->
+    <aside>
+      <article class="profile card">
+        <header>
+          <h2>Owner Ghusfood Resto</h2>
+          <p>Profil</p>
+          <figure>
+            <img src="assets/img/owner.jpeg" />
+          </figure>
+        </header>
+
+        <section class="bio">
+          <h3>Biodata</h3>
+          <table>
+            <tr>
+              <th>Nama</th>
+              <td>: Isminarto</td>
+            </tr>
+            <tr>
+              <th>Alamat</th>
+              <td>: Jl. Jaksa Agung Suprarpto(Celaket), Malang</td>
+            </tr>
+            <tr>
+              <th>Umur</th>
+              <td>: 50 Tahun</td>
+            </tr>
+            <tr>
+              <th>email</th>
+              <td>: ghidayatnur@gmail.com</td>
+            </tr>
+            <tr>
+              <th>No Telepon</th>
+              <td>: 0812-3348-8872</td>
+            </tr>
+          </table>
+        </section>
+      </article>
+    </aside>
+  </main>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    footer {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+    }
+    footer p {
+        margin: 0;
+    }
+    .feedback-btn {
+        background-color: #f39c12;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .feedback-btn:hover {
+        background-color: #e67e22;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+    }
+</style>
+
+<footer>
+    <p>Mie Bakar Celaket ; JL.Tawangmangu No.4 Klojen Malang</p>
+    <button class="feedback-btn" id="feedbackBtn">Kritik dan Saran</button>
+</footer>
+
+<!-- The Modal -->
+<div id="feedbackModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Kritik dan Saran</h2>
+        <form id="feedbackForm" action="submit_feedback.php" method="post">
+            <div>
+                <label for="nameFeedback">Nama:</label>
+                <input type="text" id="nameFeedback" name="nameFeedback" required>
+            </div>
+            <div>
+                <label for="kritikFeedback">Kritik:</label>
+                <textarea id="kritikFeedback" name="kritikFeedback" rows="4" required></textarea>
+            </div>
+            <div>
+                <label for="saranFeedback">Saran:</label>
+                <textarea id="saranFeedback" name="saranFeedback" rows="4" required></textarea>
+            </div>
+            <div>
+                <button type="submit">Kirim</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+</script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
