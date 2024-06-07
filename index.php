@@ -821,57 +821,5 @@ for (var i = 0; i < backButtons.length; i++) {
 
 <script src="assets/js/script.js"></script>
 
-<!-- <div id="feedbackModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Kritik dan Saran</h2>
-        <form id="feedbackForm" action="submit_feedback.php" method="post">
-            <div>
-                <label for="kritikFeedback">Kritik:</label>
-                <textarea id="kritikFeedback" name="kritikFeedback" rows="4" required></textarea>
-            </div>
-            <div>
-                <label for="saranFeedback">Saran:</label>
-                <textarea id="saranFeedback" name="saranFeedback" rows="4" required></textarea>
-            </div>
-            <div>
-                <button type="submit">Kirim</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-  // Ambil elemen modal dan tombol
-var modal = document.getElementById("feedbackModal");
-var openModalBtn = document.getElementById("openModalBtn");
-var closeBtn = document.getElementsByClassName("close")[0];
-
-// Fungsi untuk membuka modal
-function openModal() {
-    modal.style.display = "block";
-}
-
-// Fungsi untuk menutup modal
-function closeModal() {
-    modal.style.display = "none";
-}
-
-// Event listener untuk tombol Kritik dan Saran
-openModalBtn.addEventListener("click", openModal);
-
-// Event listener untuk tombol close
-closeBtn.addEventListener("click", closeModal);
-
-// Event listener untuk menutup modal saat mengklik di luar modal
-window.addEventListener("click", function(event) {
-    if (event.target == modal) {
-        closeModal();
-    }
-});
-</script> -->
-
-
-
 </body>
 </html>
