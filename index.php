@@ -35,6 +35,9 @@
           <li>
             <a href="#kontak">Ulasan</a>
           </li>
+          <li>
+            <a href="dashboard.php">Login</a>
+          </li>
         </ul>
       </nav>
     </div>
