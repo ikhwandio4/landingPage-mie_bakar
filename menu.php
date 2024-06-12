@@ -35,9 +35,9 @@ function hapusMenu($id_menu) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $price = $_POST['price'];
-    $description = $_POST['description'];
+    $nama = $_POST['nama'];
+    $harga = $_POST['harga'];
+    $deskripsi = $_POST['deskripsi'];
 
     // Handle file upload
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -58,13 +58,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (move_uploaded_file($fileTmpPath, $dest_path)) {
             $image = $newFileName;
-            tambahMenu($name, $price, $description, $image);
+            tambahMenu($nama, $harga, $deskripsi, $image);
         } else {
             echo 'There was some error moving the file to upload directory.';
         }
     } else {
         $image = null;
-        tambahMenu($name, $price, $description, $image);
+        tambahMenu($nama, $harga, $deskripsi, $image);
     }
+}
+function tambahPesanan($id_menu, $jumlah, $total_harga) {
+    global $pdo;
+    $tanggal = date('Y-m-d H:i:s');
+    $status = 'Menunggu Pembayaran';
+    $stmt = $pdo->prepare("INSERT INTO pesanan (id_menu, jumlah, total_harga, tanggal, status) VALUES (?, ?, ?, ?, ?)");
+    return $stmt->execute([$id_menu, $jumlah, $total_harga, $tanggal, $status]);
 }
 ?>

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
 </head>
 <body>
   <header>
@@ -37,6 +38,11 @@
           <li>
   <a href="#" id="feedbackButton">
     <i class="fas fa-comment"></i> Kritik & Saran
+  </a>
+</li>
+<li>
+<a href="#" id="keranjangLink" data-toggle="modal" data-target="#pembayaranModal">
+    <i class="fas fa-shopping-cart"></i>
   </a>
 </li>
           <li>
@@ -116,37 +122,275 @@
       font-size: 16px;
       color: #007bff;
     }
-
-    .catalog-item:hover {
-      transform: scale(1.05);
+    .jumlah-input {
+      text-align: center;
+      font-weight: bold;
     }
+    .input-group {
+      display: flex;
+      align-items: center;
+    }
+    
+    .input-group-append {
+      display: flex;
+    }
+    .btn-outline-secondary {
+      width: 2px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .jumlah-input {
+      text-align: center;
+    }
+    .center-container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+    
   </style>
 </head>
 <?php
- // Pastikan file ini berisi koneksi ke database dan fungsi ambilMenu()
-include 'menu.php';
-$menus = ambilMenu();
-?>
+  // Pastikan file ini berisi koneksi ke database dan fungsi ambilMenu()
+  include 'menu.php';
+  $menus = ambilMenu();
+  ?>
 
-
-<body>
-  <section id="product">
+<section id="catalog">
     <div class="section-title">
       <h2>Menu Pilihan</h2>
     </div>
-    <div class="galery">
+    <div class="catalog-container">
       <?php foreach ($menus as $menu) { ?>
-        <div class="image" data-aos="fade-up">
+        <div class="catalog-item" data-aos="fade-up">
           <img src="./uploaded_files/<?php echo $menu['image']; ?>" alt="<?php echo $menu['nama']; ?>">
-          
+          <div class="item-info">
             <h4><?php echo $menu['nama']; ?></h4>
             <p><?php echo $menu['deskripsi']; ?></p>
-            <p><strong></strong> Rp <?php echo number_format($menu['harga'], 0, ',', '.'); ?></p>
+            <p class="price"><strong>Harga:</strong> Rp <?php echo number_format($menu['harga'], 0, ',', '.'); ?></p>
+            <form>
+              <input type="hidden" name="id_menu" value="<?php echo $menu['id_menu']; ?>">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary kurang-btn" type="button">-</button>
+                </div>
+                <input type="text" name="jumlah" value="1" class="form-control jumlah-input" readonly>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary tambah-btn" type="button">+</button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary btn-pesan">Pesan</button>
+            </form>
           </div>
-      
+        </div>
       <?php } ?>
     </div>
   </section>
+
+  <!-- Modal -->
+  <div class="modal fade" id="pesananModal" tabindex="-1" role="dialog" aria-labelledby="pesananModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pesananModalLabel">Detail Pesanan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Isi detail pesanan akan ditambahkan melalui JavaScript -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary" id="tambahKeranjang">Tambah ke Keranjang</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Pembayaran -->
+  <div class="modal fade" id="pembayaranModal" tabindex="-1" role="dialog" aria-labelledby="pembayaranModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pembayaranModalLabel">Keranjang</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group" id="daftarPesanan"></ul>
+          <form id="form-pembayaran">
+            <div class="form-group">
+              <label for="nama-pembeli">Nama Pembeli</label>
+              <input type="text" class="form-control" id="nama-pembeli" required>
+            </div>
+            <div class="form-group">
+              <label for="total-harga">Total Harga</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-shopping-cart"></i></span>
+                </div>
+                <input type="text" class="form-control" id="total-harga" readonly>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary" id="bayar">Bayar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- Scripts -->
+   <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/ruang-admin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+     $(document).ready(function() {
+      // Initialize AOS
+      AOS.init();
+    });
+    var keranjang = [];
+
+    $(document).ready(function() {
+      $('.kurang-btn').click(function() {
+        var jumlahInput = $(this).closest('.input-group').find('.jumlah-input');
+        var jumlah = parseInt(jumlahInput.val());
+        if (jumlah > 1) {
+          jumlahInput.val(jumlah - 1);
+        }
+      });
+
+      $('.tambah-btn').click(function() {
+        var jumlahInput = $(this).closest('.input-group').find('.jumlah-input');
+        var jumlah = parseInt(jumlahInput.val());
+        jumlahInput.val(jumlah + 1);
+      });
+
+      $('.btn-pesan').click(function() {
+        var namaMenu = $(this).closest('.item-info').find('h4').text();
+        var jumlah = $(this).closest('form').find('input[name="jumlah"]').val();
+        var harga = $(this).closest('.item-info').find('.price').text().replace(/[^0-9,-]+/g, '').replace(/,/g, '');
+        var subtotal = jumlah * parseInt(harga);
+
+        // Tampilkan modal dengan detail pesanan
+        var modalBody = $('#pesananModal .modal-body');
+        modalBody.html('<p><strong>Nama Menu:</strong> ' + namaMenu + '</p>');
+        modalBody.append('<p><strong>Jumlah:</strong> ' + jumlah + '</p>');
+        modalBody.append('<p><strong>Subtotal:</strong> Rp ' + subtotal.toLocaleString('id-ID') + '</p>');
+
+        // Simpan data pesanan sementara di button
+        $('#tambahKeranjang').data('pesanan', {
+          namaMenu: namaMenu,jumlah: jumlah,
+          harga: harga,
+          subtotal: subtotal
+        });
+
+        $('#pesananModal').modal('show');
+      });
+
+      $('#tambahKeranjang').click(function() {
+        // Ambil data pesanan dari tombol
+        var pesanan = $(this).data('pesanan');
+
+        // Tambahkan pesanan ke keranjang
+        keranjang.push(pesanan);
+
+        // Sembunyikan modal pesanan
+        $('#pesananModal').modal('hide');
+      });
+
+      $('#bayar').click(function() {
+        // Hitung total harga dari keranjang
+        var totalHarga = 0;
+        $.each(keranjang, function(index, pesanan) {
+          totalHarga += pesanan.subtotal;
+        });
+
+        // Tampilkan total harga di modal pembayaran
+        $('#total-harga').val('Rp ' + totalHarga.toLocaleString('id-ID'));
+
+        // Tampilkan modal pembayaran
+        $('#pembayaranModal').modal('show');
+      });
+
+      $('#form-pembayaran').submit(function(event) {
+        event.preventDefault();
+        
+        // Ambil nama pembeli dari input
+        var namaPembeli = $('#nama-pembeli').val();
+
+        // Hitung total harga dari keranjang
+        var totalHarga = 0;
+        $.each(keranjang, function(index, pesanan) {
+          totalHarga += pesanan.subtotal;
+        });
+
+        // Proses pembayaran (simulasi)
+        alert('Terima kasih, ' + namaPembeli + '! Pembayaran sebesar Rp ' + totalHarga.toLocaleString('id-ID') + ' telah berhasil.');
+
+        // Kosongkan keranjang setelah pembayaran berhasil
+        keranjang = [];
+
+        // Sembunyikan modal pembayaran
+        $('#pembayaranModal').modal('hide');
+      });
+    });
+
+  </script>
+   
+
+    
+
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('.btn-pesan').click(function() {
+        var namaMenu = $(this).closest('.image').find('h4').text();
+        var jumlah = $(this).closest('form').find('input[name="jumlah"]').val();
+        var harga = $(this).closest('.image').find('p:last-child').text().replace(/[^0-9,-]+/g, '').replace(/,/g, '');
+        var subtotal = jumlah * parseInt(harga);
+
+        // Tampilkan modal dengan detail pesanan
+        var modalBody = $('#pesananModal .modal-body');
+        modalBody.html('<p><strong>Nama Menu:</strong> ' + namaMenu + '</p>');
+        modalBody.append('<p><strong>Jumlah:</strong> ' + jumlah + '</p>');
+        modalBody.append('<p><strong>Subtotal:</strong> Rp ' + subtotal.toLocaleString('id-ID') + '</p>');
+
+        $('#pesananModal').modal('show');
+      });
+    });
+    $(document).ready(function() {
+  $('.btn-pesan').click(function() {
+    // Kode untuk menampilkan modal
+
+    $('#pesananModal').modal('show');
+  });
+
+  $('.kurang-btn').click(function() {
+    var jumlahInput = $(this).closest('.input-group').find('.jumlah-input');
+    var jumlah = parseInt(jumlahInput.val());
+    if (jumlah > 1) {
+      jumlahInput.val(jumlah - 1);
+    }
+  });
+
+  $('.tambah-btn').click(function() {
+    var jumlahInput = $(this).closest('.input-group').find('.jumlah-input');
+    var jumlah = parseInt(jumlahInput.val());
+    jumlahInput.val(jumlah + 1);
+  });
+});
+  </script>
 
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -159,6 +403,67 @@ $menus = ambilMenu();
       AOS.init();
     });
   </script>
+
+ 
+  <!-- Bootstrap JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      var keranjang = [];
+
+      $('.btn-pesan').click(function() {
+        var namaMenu = $(this).closest('.image').find('h4').text();
+        var jumlah = $(this).closest('.image').find('.jumlah-input').val();
+        var harga = $(this).closest('.image').find('p:last-child').text().replace(/[^0-9,-]+/g, '').replace(/,/g, '');
+        var subtotal = jumlah * parseInt(harga);
+
+        // Tambahkan pesanan ke keranjang
+        keranjang.push({
+          namaMenu: namaMenu,
+          jumlah: jumlah,
+          harga: harga,
+          subtotal: subtotal
+        });
+
+        // Tampilkan modal dengan detail pesanan
+        var modalBody = $('#pesananModal .modal-body');
+        modalBody.html('<p><strong>Nama Menu:</strong> ' + namaMenu + '</p>');
+        modalBody.append('<p><strong>Jumlah:</strong> ' + jumlah + '</p>');
+        modalBody.append('<p><strong>Subtotal:</strong> Rp ' + subtotal.toLocaleString('id-ID') + '</p>');
+
+        $('#pesananModal').modal('show');
+      });
+
+      $('#tambahKeranjang').click(function() {
+        $('#pesananModal').modal('hide');
+      });
+
+      $('#bayar').click(function() {
+        var totalHarga = 0;
+        $.each(keranjang, function(index, pesanan) {
+          totalHarga += pesanan.subtotal;
+        });
+
+        $('#total-harga').val(totalHarga.toLocaleString('id-ID'));
+        $('#pembayaranModal').modal('show');
+      });
+
+      $('#form-pembayaran').submit(function(event) {
+        event.preventDefault();
+        var namaPembeli = $('#nama-pembeli').val();
+        var totalHarga = $('#total-harga').val().replace(/[^0-9,-]+/g, '').replace(/,/g, '');
+
+        // Lakukan proses pembayaran di sini
+        // Misalnya, kirim data ke server menggunakan AJAX atau redirect ke halaman lain
+
+        alert('Terima kasih, ' + namaPembeli + '! Pembayaran sebesar Rp ' + totalHarga + ' telah berhasil.');
+        keranjang = []; // Kosongkan keranjang setelah pembayaran berhasil
+      });
+    });
+  </script>
+
+
 
       </article>
       <article id="menu-fav" class="menu-fav">
@@ -704,6 +1009,7 @@ $menus = ambilMenu($pdo);
 </style>
 
 
+
 <!-- Modal Feedback -->
 <div id="modalFeedback" class="modal">
   <div class="modal-content">
@@ -792,15 +1098,61 @@ $menus = ambilMenu($pdo);
       });
     }
 </script>
+    </div>
+    
 
-</script>
+         <!-- Modal -->
+<div class="modal fade" id="pesananModal" tabindex="-1" role="dialog" aria-labelledby="pesananModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pesananModalLabel">Detail Pesanan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Isi detail pesanan akan ditambahkan melalui JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" id="tambahKeranjang">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-  // Tambahkan kode JavaScript berikut ke dalam file JavaScript Anda atau dalam tag <script>
+ $(document).ready(function() {
+  $('.btn-pesan').click(function(event) {
+    event.preventDefault(); // Mencegah form untuk dikirimkan secara default
+
+    var namaMenu = $(this).closest('.image').find('h4').text();
+    var jumlah = $(this).closest('form').find('input[name="jumlah"]').val();
+    var harga = $(this).closest('.image').find('p:last-child').text().replace(/[^0-9,-]+/g, '').replace(/,/g, '');
+    var subtotal = jumlah * parseInt(harga);
+
+    // Tampilkan modal dengan detail pesanan
+    var modalBody = $('#pesananModal .modal-body');
+    modalBody.html('<p><strong>Nama Menu:</strong> ' + namaMenu + '</p>');
+    modalBody.append('<p><strong>Jumlah:</strong> ' + jumlah + '</p>');
+    modalBody.append('<p><strong>Subtotal:</strong> Rp ' + subtotal.toLocaleString('id-ID') + '</p>');
+
+    $('#pesananModal').modal('show');
+  });
+
+  $('#tambahKeranjang').click(function() {
+    // Logika untuk menambahkan pesanan ke keranjang
+    // ...
+
+    // Tutup modal setelah berhasil menambahkan ke keranjang
+    $('#pesananModal').modal('hide');
+  });
+});
 
 
 </script>
-    </div>
+
 
     <!-- Konten samping -->
     <aside>

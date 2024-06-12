@@ -5,7 +5,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "nomina";
+$dbname = "celaket";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

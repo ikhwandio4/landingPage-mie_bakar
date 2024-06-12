@@ -51,15 +51,15 @@ include 'menu.php';
                 <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                   <label for="menuName">Name</label>
-                  <input type="text" class="form-control" id="menuName" name="name" placeholder="Masukkan Nama Menu">
+                  <input type="text" class="form-control" id="menuName" name="nama" placeholder="Masukkan Nama Menu">
                 </div>
                 <div class="form-group">
                   <label for="menuPrice">Price</label>
-                  <input type="number" class="form-control" id="menuPrice" name="price" placeholder="Masukkan Harga">
+                  <input type="number" class="form-control" id="menuPrice" name="harga" placeholder="Masukkan Harga">
                 </div>
                 <div class="form-group">
                   <label for="menuDescription">Description</label>
-                  <textarea class="form-control" id="menuDescription" name="description" rows="3" placeholder="Masukkan Descripsi"></textarea>
+                  <textarea class="form-control" id="menuDescription" name="deskripsi" rows="3" placeholder="Masukkan Descripsi"></textarea>
                 </div>
                 <div class="form-group">
                   <div class="custom-file">
