@@ -18,15 +18,15 @@ function ambilUlasan() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function tambahUlasan($nama_Produk, $rating, $ulasan) {
+function tambahUlasan($kritik, $saran) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO ulasan (nama_barang, rating, ulasan) VALUES (?, ?, ?)");
-    return $stmt->execute([$nama_Produk, $rating, $ulasan]);
+    $stmt = $pdo->prepare("INSERT INTO krtiksaran (kritik, saran) VALUES (?, ?, ?)");
+    return $stmt->execute([$kritik, $saran]);
 }
 
-function hapusUlasan($id_Ulasan) {
+function hapusUlasan($id_kritiksaran) {
     global $pdo;
     $stmt = $pdo->prepare("DELETE FROM ulasan WHERE id_Ulasan = ?");
-    return $stmt->execute([$id_Ulasan]);
+    return $stmt->execute([$id_kritiksaran]);
 }
 ?>

@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT nama, ulasan FROM testimoni";
+$sql = "SELECT nama, menu, rating, ulasan FROM testimoni";
 $result = $conn->query($sql);
 
 $testimonials = [];

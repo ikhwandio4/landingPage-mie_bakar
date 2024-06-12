@@ -1,39 +1,45 @@
 <?php
-// Koneksi ke database
 include 'koneksi.php';
+include 'menu.php';
 
-// Menerima data dari form
-if (isset($_POST['nama']) && isset($_POST['no_telepon']) && isset($_POST['tanggal']) && isset($_POST['pukul']) && isset($_POST['jumlah_orang']) && isset($_POST['menu'])) {
+header('Content-Type: application/json');
+
+// Get the number of available seats
+$sql = "SELECT available_seats FROM reservations_info";
+$result = $conn->query($sql);
+
+$available_seats = 0;
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $available_seats = $row['available_seats'];
+}
+
+$jumlah_orang = intval($_POST['jumlah_orang']);
+if ($jumlah_orang <= $available_seats) {
+    // Proceed with the reservation
+    $stmt = $conn->prepare("INSERT INTO reservasi (nama, no_telepon, tanggal, pukul, jumlah_orang, menu) VALUES (?, ?, ?, ?, ?, ?)");
     $nama = $_POST['nama'];
     $no_telepon = $_POST['no_telepon'];
     $tanggal = $_POST['tanggal'];
     $pukul = $_POST['pukul'];
     $jumlah_orang = $_POST['jumlah_orang'];
     $menu = $_POST['menu'];
+    $stmt->bind_param("ssssss", $nama, $no_telepon, $tanggal, $pukul, $jumlah_orang, $menu);
 
-    // Validasi data
-    if (empty($nama) || empty($no_telepon) || empty($tanggal) || empty($pukul) || empty($jumlah_orang) || empty($menu)) {
-        echo "Mohon lengkapi semua field.";
-        exit;
-    }
+    if ($stmt->execute()) {
+        // Update the available seats
+        $new_available_seats = $available_seats - $jumlah_orang;
+        $update_sql = "UPDATE reservations_info SET available_seats = $new_available_seats";
+        $conn->query($update_sql);
 
-    // Pastikan tanggal adalah nilai yang valid
-    if (!strtotime($tanggal)) {
-        echo "Format tanggal tidak valid.";
-        exit;
-    }
-
-    // Query untuk menyimpan data reservasi ke database
-    $sql = "INSERT INTO reservasi (nama, no_telepon, tanggal, pukul, jumlah_orang, menu) 
-            VALUES ('$nama', '$no_telepon', '$tanggal', '$pukul', '$jumlah_orang', '$menu')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Data reservasi berhasil disimpan.";
+        echo json_encode(['status' => 'success']);
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo json_encode(['status' => 'error', 'message' => 'Failed to save reservation: ' . $stmt->error]);
     }
+
+    $stmt->close();
 } else {
-    echo "Mohon lengkapi semua field.";
+    echo json_encode(['status' => 'error', 'message' => 'Not enough available seats']);
 }
 
 $conn->close();

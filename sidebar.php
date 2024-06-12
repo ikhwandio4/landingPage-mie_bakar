@@ -52,13 +52,12 @@
                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true"
                     aria-controls="collapseForm">
                     <i class="fab fa-fw fa-wpforms"></i>
-                    <span>Forms</span>
+                    <span>Menu Calekat</span>
                   </a>
                   <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                      <h6 class="collapse-header">Forms</h6>
-                      <a class="collapse-item" href="form_basics.html">Form Basics</a>
-                      <a class="collapse-item" href="form_advanceds.html">Form Advanceds</a>
+                      <h6 class="collapse-header">menu</h6>
+                      <a class="collapse-item" href="menu-list.php">Menu</a>
                     </div>
                   </div>
                 </li>

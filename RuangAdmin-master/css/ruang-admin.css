@@ -513,7 +513,7 @@ a:focus {
 }
 
 .topbar .dropdown-list .dropdown-header {
-  background-color: #3f51b5;
+  background-color: #7cf10e;
   border: 1px solid #3f51b5;
   padding-top: .75rem;
   padding-bottom: .75rem;
@@ -597,7 +597,7 @@ a:focus {
 }
 
 .bg-navbar {
-  background-color: #6777ef
+  background-color: #7cf10e;
 }
 
 .sidebar {
@@ -1091,8 +1091,8 @@ a:focus {
 }
 
 .sidebar-light .sidebar-brand {
-  color: #fafafa;
-  background-color: #4c60da
+  color: green;
+
 }
 
 .sidebar-light hr.sidebar-divider {

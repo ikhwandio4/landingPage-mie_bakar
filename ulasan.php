@@ -20,7 +20,7 @@ function ambilUlasan() {
 
 function tambahUlasan($nama, $menu,$rating ,$ulasan) {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO ulasan (nama,menu ,rating, ulasan) VALUES (?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO testimoni (nama, menu ,rating, ulasan) VALUES (?, ?, ?, ?)");
     return $stmt->execute([$nama,$menu ,$rating, $ulasan]);
 }
 
