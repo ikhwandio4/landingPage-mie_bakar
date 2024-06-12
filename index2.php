@@ -176,7 +176,7 @@
                 <div class="input-group-prepend">
                   <button class="btn btn-outline-secondary kurang-btn" type="button">-</button>
                 </div>
-                <input type="text" name="jumlah" value="1" class="form-control jumlah-input" readonly>
+                <input type="text" name="jumlah" value="0" class="form-control jumlah-input" readonly>
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary tambah-btn" type="button">+</button>
                 </div>
@@ -267,11 +267,12 @@
         }
       });
 
-      $('.tambah-btn').click(function() {
-        var jumlahInput = $(this).closest('.input-group').find('.jumlah-input');
-        var jumlah = parseInt(jumlahInput.val());
-        jumlahInput.val(jumlah + 1);
+      $('.tambah-btn').off().click(function() {
+    var jumlahInput = $(this).closest('.input-group').find('.jumlah-input');
+    var jumlah = parseInt(jumlahInput.val());
+    jumlahInput.val(jumlah + 1);
       });
+
 
       $('.btn-pesan').click(function() {
         var namaMenu = $(this).closest('.item-info').find('h4').text();
@@ -841,9 +842,9 @@ $menus = ambilMenu($pdo);
       <span class="close">&times;</span>
       <h2>Form Reservasi</h2>
       <!-- Display available seats -->
-      <p id="available-seats"></p>
+      <!-- <p id="available-seats"></p> -->
       <!-- Form fields untuk reservasi -->
-      <form id="formReservasi" action="submit_reservasi.php" method="POST">
+        <form action="submit_reservasi.php" method="POST">
         <div class="form-group">
           <label for="nama">Nama:</label>
           <input type="text" id="nama" name="nama" required>
@@ -859,10 +860,6 @@ $menus = ambilMenu($pdo);
         <div class="form-group">
           <label for="pukul">Pukul:</label>
           <input type="time" id="pukul" name="pukul" required>
-        </div>
-        <div class="form-group">
-          <label for="jumlah_orang">Jumlah Orang:</label>
-          <input type="number" id="jumlah_orang" name="jumlah_orang" required>
         </div>
         <div class="form-group">
           <label for="menu">Menu</label>
@@ -881,9 +878,26 @@ $menus = ambilMenu($pdo);
             ?>
           </select>
         </div>
+        <div class="form-group">
+          <label for="jumlah_orang">Jumlah Orang:</label>
+          <input type="number" id="jumlah" name="jumlah_orang" required>
+        </div>
+        <div class="form-group">
+          <label for="meja">Pilih Meja:</label>
+          <select class="form-control" id="meja" name="meja" required>
+            <option value="1">Meja 1</option>
+            <option value="2">Meja 2</option>
+            <option value="3">Meja 3</option>
+            <option value="4">Meja 4</option>
+            <option value="5">Meja 5</option>
+            <option value="6">Meja 6</option>
+            <option value="7">Meja 7</option>
+            <option value="8">Meja 8</option>
+          </select>
+        </div>
         <button type="submit">Simpan</button>
-      </form>
       <button type="button" class="back-button">Kembali</button>
+      </form>
     </div>
   </div>
 </article>

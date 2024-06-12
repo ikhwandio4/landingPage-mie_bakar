@@ -28,11 +28,11 @@
                   </div>
                   <!-- Tampilkan pesan error jika ada -->
                   <?php if (isset($_GET["error"])) : ?>
-                      <p style="color: red;">Email atau password salah. Silakan coba lagi.</p>
+                      <p style="color: red;">Username atau password salah. Silakan coba lagi.</p>
                   <?php endif; ?>
                   <form class="user" method="POST" action="proses_login.php">
                     <div class="form-group">
-                      <input type="email" class="form-control" name="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address" required>
+                      <input type="text" class="form-control" name="username" id="exampleInputUsername" aria-describedby="usernameHelp" placeholder="Enter Username" required>
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control" name="password" id="exampleInputPassword" placeholder="Password" required>

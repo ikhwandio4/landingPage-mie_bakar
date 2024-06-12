@@ -1,29 +1,6 @@
 <?php
 // Include the file containing the database connection and functions
 include 'kritikSaran.php';
-
-// Handle delete request
-if (isset($_GET['hapus'])) {
-    $id_Ulasan = $_GET['hapus'];
-    if (hapusUlasan($id_Ulasan)) {
-        echo "Ulasan berhasil dihapus.";
-    } else {
-        echo "Gagal menghapus ulasan.";
-    }
-}
-
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['tambah'])) {
-    $id_kritiksaran = $_POST['id_kritiksaran'];
-    $kritik = $_POST['kritik'];
-    $saran = $_POST['saran'];
-
-    if (tambahUlasan($nama_Produk, $rating, $ulasan)) {
-        echo "Ulasan berhasil ditambahkan.";
-    } else {
-        echo "Gagal menambahkan ulasan.";
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['tambah'])) {
                                         echo "<td>" . $u['kritik'] . "</td>";
                                         echo "<td>" . $u['saran'] . "</td>";
                                         echo "<td>";
-                                        echo "<a href='ulasan-edit.php?id=" . $u['id_kritiksaran'] . "' class='btn btn-sm btn-warning'>Edit</a> ";
-                                        echo "<a href='ulasan-list.php?hapus=" . $u['id_kritiksaran'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus ulasan ini?\")'>Hapus</a>";
+                                        echo "<a href='kritikSaran-edit.php?id=" . $u['id_kritiksaran'] . "' class='btn btn-sm btn-warning'>Edit</a> ";
+                                        echo "<a href='kritikSaran-list.php?hapus=" . $u['id_kritiksaran'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus ulasan ini?\")'>Hapus</a>";
                                         echo "</td>";
                                         echo "</tr>";
                                     }

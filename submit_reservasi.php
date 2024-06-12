@@ -1,45 +1,45 @@
 <?php
-include 'koneksi.php';
-include 'menu.php';
+// Mulai session
+session_start();
 
-header('Content-Type: application/json');
+// Koneksi ke database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "celaket";
 
-// Get the number of available seats
-$sql = "SELECT available_seats FROM reservations_info";
-$result = $conn->query($sql);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-$available_seats = 0;
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $available_seats = $row['available_seats'];
+// Cek koneksi
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
 
-$jumlah_orang = intval($_POST['jumlah_orang']);
-if ($jumlah_orang <= $available_seats) {
-    // Proceed with the reservation
-    $stmt = $conn->prepare("INSERT INTO reservasi (nama, no_telepon, tanggal, pukul, jumlah_orang, menu) VALUES (?, ?, ?, ?, ?, ?)");
-    $nama = $_POST['nama'];
-    $no_telepon = $_POST['no_telepon'];
-    $tanggal = $_POST['tanggal'];
-    $pukul = $_POST['pukul'];
-    $jumlah_orang = $_POST['jumlah_orang'];
-    $menu = $_POST['menu'];
-    $stmt->bind_param("ssssss", $nama, $no_telepon, $tanggal, $pukul, $jumlah_orang, $menu);
+// Proses form jika data dikirim
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama = $_POST["nama"];
+    $no_telepon = $_POST["no_telepon"];
+    $tanggal = $_POST["tanggal"];
+    $pukul = $_POST["pukul"];
+    $jumlah_orang = $_POST["jumlah_orang"];
+    $menu = $_POST["menu"];
+    $meja = $_POST["meja"];
+
+    // Query untuk menyimpan data ke tabel reservasi
+    $stmt = $conn->prepare("INSERT INTO reservasi (nama, no_telepon, tanggal, pukul, jumlah_orang, menu, meja) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssiss", $nama, $no_telepon, $tanggal, $pukul, $jumlah_orang, $menu, $meja);
 
     if ($stmt->execute()) {
-        // Update the available seats
-        $new_available_seats = $available_seats - $jumlah_orang;
-        $update_sql = "UPDATE reservations_info SET available_seats = $new_available_seats";
-        $conn->query($update_sql);
-
-        echo json_encode(['status' => 'success']);
+        // Redirect ke halaman sukses atau tampilan pesan sukses
+        header("Location: index2.php.php");
+        exit();
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to save reservation: ' . $stmt->error]);
+        // Redirect ke halaman error atau tampilkan pesan error
+        header("Location: error.php");
+        exit();
     }
 
     $stmt->close();
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Not enough available seats']);
 }
 
 $conn->close();

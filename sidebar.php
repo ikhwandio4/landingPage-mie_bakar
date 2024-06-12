@@ -31,12 +31,12 @@
                   Features
                 </div>
                 <li class="nav-item">
-                  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
+                  <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
                     aria-expanded="true" aria-controls="collapseBootstrap">
                     <i class="far fa-fw fa-window-maximize"></i>
                     <span>Bootstrap UI</span>
-                  </a>
-                  <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                  </a> -->
+                  <!-- <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                       <h6 class="collapse-header">Bootstrap UI</h6>
                       <a class="collapse-item" href="alerts.html">Alerts</a>
@@ -46,7 +46,7 @@
                       <a class="collapse-item" href="popovers.html">Popovers</a>
                       <a class="collapse-item" href="progress-bar.html">Progress Bars</a>
                     </div>
-                  </div>
+                  </div> -->
                 </li>
                 <li class="nav-item">
                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true"
@@ -82,9 +82,9 @@
                 </li>
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">
-                  Examples
+                  Logout
                 </div>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true"
                     aria-controls="collapsePage">
                     <i class="fas fa-fw fa-columns"></i>
@@ -99,11 +99,11 @@
                       <a class="collapse-item" href="blank.html">Blank Page</a>
                     </div>
                   </div>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span>
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                   </a>
                 </li>
                 <hr class="sidebar-divider">

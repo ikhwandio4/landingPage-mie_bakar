@@ -16,27 +16,39 @@ if ($conn->connect_error) {
 
 // Proses login jika form disubmit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
+    $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // Query untuk memeriksa keberadaan pengguna dengan email dan password yang sesuai
-    $sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
-    $result = $conn->query($sql);
+    // Gunakan prepared statements untuk menghindari SQL Injection
+    $stmt = $conn->prepare("SELECT id_users, username, password FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
 
-    if ($result->num_rows == 1) {
-        // Login berhasil, simpan informasi pengguna dalam sesi
-        $row = $result->fetch_assoc();
-        $_SESSION["user_id"] = $row["id"];
-        $_SESSION["user_email"] = $row["email"];
-        
-        // Redirect ke halaman dashboard
-        header("Location: dashboard.php");
-        exit();
+    if ($stmt->num_rows == 1) {
+        $stmt->bind_result($id, $user_username, $stored_password);
+        $stmt->fetch();
+
+        // Verifikasi password
+        if ($password === $stored_password) {  // Tidak menggunakan hashing
+            // Login berhasil, simpan informasi pengguna dalam sesi
+            $_SESSION["user_id"] = $id;
+            $_SESSION["username"] = $user_username;
+
+            // Redirect ke halaman dashboard
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            // Password salah
+            header("Location: login.php?error=1");
+            exit();
+        }
     } else {
-        // Login gagal, redirect kembali ke halaman login dengan pesan error
+        // User tidak ditemukan
         header("Location: login.php?error=1");
         exit();
     }
+    $stmt->close();
 }
 
 $conn->close();

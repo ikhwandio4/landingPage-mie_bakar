@@ -24,9 +24,31 @@ function tambahUlasan($kritik, $saran) {
     return $stmt->execute([$kritik, $saran]);
 }
 
-function hapusUlasan($id_kritiksaran) {
+function hapuskritiksaran($id_kritiksaran) {
     global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM ulasan WHERE id_Ulasan = ?");
+    $stmt = $pdo->prepare("DELETE FROM kritiksaran WHERE id_kritiksaran = ?");
     return $stmt->execute([$id_kritiksaran]);
+}
+// Handle delete request
+if (isset($_GET['hapus'])) {
+    $id_kritiksaran = $_GET['hapus'];
+    if (hapuskritiksaran($id_kritiksaran)) {
+        echo "Ulasan berhasil dihapus.";
+    } else {
+        echo "Gagal menghapus ulasan.";
+    }
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['tambah'])) {
+    $id_kritiksaran = $_POST['id_kritiksaran'];
+    $kritik = $_POST['kritik'];
+    $saran = $_POST['saran'];
+
+    if (tambahUlasan($nama_Produk, $rating, $ulasan)) {
+        echo "Ulasan berhasil ditambahkan.";
+    } else {
+        echo "Gagal menambahkan ulasan.";
+    }
 }
 ?>
