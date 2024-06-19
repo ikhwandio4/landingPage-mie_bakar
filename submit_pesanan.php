@@ -1,25 +1,34 @@
 <?php
 include 'koneksi.php';
 
+// Menerima data POST
+$data = json_decode(file_get_contents('php://input'), true);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $namaCustomer = $_POST['namaCustomer'];
-    $tanggalPemesanan = $_POST['tanggalPemesanan'];
-    $total = floatval($_POST['total']);
+    $namaCustomer = $data['namaCustomer'];
+    $tanggalPemesanan = $data['tanggalPemesanan'];
+    $total = floatval($data['total']);
+    $pesanan = $data['pesanan'];
+    $metodePembayaran = $data['metodePembayaran']; // Mengambil metodePembayaran dari data
 
     // Simpan data ke dalam tabel pemesanan
-    $sqlPemesanan = "INSERT INTO pemesanan (nama_pelanggan, tanggal_pesan, total_pembayaran) VALUES ('$namaCustomer', '$tanggalPemesanan', '$total')";
+    $sqlPemesanan = "INSERT INTO pemesanan (nama_pelanggan, tanggal_pesan, total_pembayaran, metode_pembayaran) 
+                     VALUES ('$namaCustomer', '$tanggalPemesanan', '$total', '$metodePembayaran')";
+    
     if ($conn->query($sqlPemesanan) === TRUE) {
         // Ambil id_penjualan yang baru saja dibuat
         $idPenjualan = $conn->insert_id;
 
         // Loop untuk menyimpan data menu ke dalam tabel keranjang
-        foreach ($_POST['pesanan'] as $pesanan) {
-            $namaMenu = $pesanan['nama'];
-            $jumlah = $pesanan['jumlah'];
-            $subtotal = $pesanan['harga'] * $jumlah;
+        foreach ($pesanan as $menu) {
+            $namaMenu = $menu['nama'];
+            $jumlah = $menu['jumlah'];
+            $harga = $menu['harga'];
+            $subtotal = $harga * $jumlah;
 
             // Simpan data ke dalam tabel keranjang
-            $sqlKeranjang = "INSERT INTO keranjang (id_penjualan, nama_Menu, jumlah, subtotal) VALUES ('$idPenjualan', '$namaMenu', '$jumlah', '$subtotal')";
+            $sqlKeranjang = "INSERT INTO keranjang (id_pemesanan, nama_menu, jumlah, subtotal) 
+                             VALUES ('$idPenjualan', '$namaMenu', '$jumlah', '$subtotal')";
             $conn->query($sqlKeranjang);
         }
 
@@ -30,3 +39,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn->close();
 }
+?>

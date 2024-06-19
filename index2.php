@@ -246,224 +246,223 @@
 
         <!-- Modal Pembayaran -->
         <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="pembayaranModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="pembayaranModalLabel">Pembayaran</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <!-- Daftar Menu yang Dipilih -->
-                <ul id="daftarMenuPilihan"></ul>
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="pembayaranModalLabel">Pembayaran</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Daftar Menu yang Dipilih -->
+              <ul id="daftarMenuPilihan"></ul>
 
-                <!-- Input Nama -->
-                <div class="form-group">
-                  <label for="namaCustomer">Nama Customer:</label>
-                  <input type="text" id="namaCustomer" class="form-control" required>
-                </div>
-
-                <!-- Input Tanggal -->
-                <div class="form-group">
-                  <label for="tanggalPemesanan">Tanggal Pemesanan:</label>
-                  <input type="date" id="tanggalPemesanan" class="form-control" required>
-                </div>
-
-                <!-- Subtotal dan Total -->
-                <div class="form-group">
-                  <label for="subtotal">Subtotal:</label>
-                  <input type="text" id="subtotal" class="form-control" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="total">Total:</label>
-                  <input type="text" id="total" class="form-control" readonly>
-                </div>
+              <!-- Input Nama -->
+              <div class="form-group">
+                <label for="namaCustomer">Nama Customer:</label>
+                <input type="text" id="namaCustomer" class="form-control" required>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary" onclick="prosesPembayaran()">Proses Pembayaran</button>
+
+              <!-- Input Tanggal
+              <div class="form-group">
+                <label for="tanggalPemesanan">Tanggal Pemesanan:</label>
+                <input type="date" id="tanggalPemesanan" class="form-control" required>
+              </div> -->
+
+              <!-- Dropdown untuk Metode Pembayaran -->
+              <div class="form-group">
+                <label for="metodePembayaran">Metode Pembayaran:</label>
+                <select id="metodePembayaran" class="form-control" required>
+                  <option value="">Pilih Metode Pembayaran</option>
+                  <option value="cash">Cash</option>
+                  <option value="qris">QRIS</option>
+                  <option value="transfer">Transfer Bank</option>
+                </select>
               </div>
+
+              <!-- Subtotal dan Total -->
+              <div class="form-group">
+                <label for="subtotal">Subtotal:</label>
+                <input type="text" id="subtotal" class="form-control" readonly>
+              </div>
+              <div class="form-group">
+                <label for="total">Total:</label>
+                <input type="text" id="total" class="form-control" readonly>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning" data-dismiss="modal">Tutup</button>
+              <button type="button" class="btn btn-primary" onclick="prosesPembayaran()">Proses Pembayaran</button>
             </div>
           </div>
         </div>
+      </div>
 
-        <script>
-          var modalPemesanan = document.getElementById("modalPemesanan");
-          var closeButtons = document.getElementsByClassName("close");
-          var pesanan = [];
 
-          function openModal(modal) {
-            modal.style.display = "block";
-          }
+      <script>
+    var modalPemesanan = document.getElementById("modalPemesanan");
+    var closeButtons = document.getElementsByClassName("close");
+    var pesanan = [];
 
-          function closeModal(event) {
-            event.target.parentElement.parentElement.style.display = "none";
-          }
+    function openModal(modal) {
+        modal.style.display = "block";
+    }
 
-          // Event listener untuk tombol pesan
-          var pesanButtons = document.querySelectorAll(".btn-primary[data-menu][data-harga]");
-          pesanButtons.forEach(function(button) {
-            button.addEventListener("click", function() {
-              var menuNama = this.getAttribute('data-menu');
-              var menuHarga = this.getAttribute('data-harga');
-              document.getElementById('menuNama').value = menuNama;
-              document.getElementById('menuHarga').value = menuHarga;
-              openModal(modalPemesanan);
-            });
-          });
+    function closeModal(event) {
+        event.target.parentElement.parentElement.style.display = "none";
+    }
 
-          // Event listener untuk tombol close
-          for (var i = 0; i < closeButtons.length; i++) {
-            closeButtons[i].addEventListener("click", closeModal);
-          }
+    // Event listener untuk tombol pesan
+    var pesanButtons = document.querySelectorAll(".btn-primary[data-menu][data-harga]");
+    pesanButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+            var menuNama = this.getAttribute('data-menu');
+            var menuHarga = this.getAttribute('data-harga');
+            document.getElementById('menuNama').value = menuNama;
+            document.getElementById('menuHarga').value = menuHarga;
+            openModal(modalPemesanan);
+        });
+    });
 
-          // Event listener untuk klik di luar modal
-          window.addEventListener("click", function(event) {
-            if (event.target == modalPemesanan) {
-              modalPemesanan.style.display = "none";
-            }
-          });
-          document.addEventListener('DOMContentLoaded', function() {
-            var modalPembayaran = $('#cartModal');
+    // Event listener untuk tombol close
+    for (var i = 0; i < closeButtons.length; i++) {
+        closeButtons[i].addEventListener("click", closeModal);
+    }
 
-            // Fungsi untuk menampilkan modal pembayaran
-            function tampilkanModalPembayaran() {
-              modalPembayaran.modal('show');
-            }
+    // Event listener untuk klik di luar modal
+    window.addEventListener("click", function(event) {
+        if (event.target == modalPemesanan) {
+            modalPemesanan.style.display = "none";
+        }
+    });
 
-            // Panggil fungsi tampilkanModalPembayaran saat ikon keranjang diklik
-            var keranjangLink = document.getElementById('keranjangLink');
-            keranjangLink.addEventListener('click', function() {
-              tampilkanModalPembayaran();
-            });
+    // Fungsi untuk menampilkan modal pembayaran
+    function tampilkanModalPembayaran() {
+        $('#cartModal').modal('show');
+    }
 
-            // Event listener untuk tombol Tutup pada modal pembayaran
-            modalPembayaran.on('hidden.bs.modal', function() {
-              modalPembayaran.modal('hide');
-            });
+    // Panggil fungsi tampilkanModalPembayaran saat ikon keranjang diklik
+    var keranjangLink = document.getElementById('keranjangLink');
+    keranjangLink.addEventListener('click', function() {
+        tampilkanModalPembayaran();
+    });
 
-            // Event listener saat modal pembayaran ditampilkan
-            modalPembayaran.on('show.bs.modal', function() {
-              tampilkanDaftarMenu();
-              hitungSubtotalDanTotal();
-            });
-          });
+    // Event listener untuk tombol Tutup pada modal pembayaran
+    $('#cartModal').on('hidden.bs.modal', function() {
+        $('#cartModal').modal('hide');
+    });
 
-          var pesanan = []; // Variabel untuk menyimpan daftar menu yang dipilih
+    // Event listener saat modal pembayaran ditampilkan
+    $('#cartModal').on('show.bs.modal', function() {
+        tampilkanDaftarMenu();
+        hitungSubtotalDanTotal();
+    });
 
-          function tambahKeKeranjang() {
-            var menuNama = document.getElementById('menuNama').value;
-            var menuHarga = document.getElementById('menuHarga').value;
-            var jumlah = parseInt(document.getElementById('jumlah').value);
+    // Fungsi untuk menambahkan pesanan ke keranjang
+    function tambahKeKeranjang() {
+        var menuNama = document.getElementById('menuNama').value;
+        var menuHarga = document.getElementById('menuHarga').value;
+        var jumlah = parseInt(document.getElementById('jumlah').value);
 
-            // Tambahkan menu ke dalam pesanan
-            pesanan.push({
-              nama: menuNama,
-              harga: parseInt(menuHarga),
-              jumlah: jumlah
-            });
+        // Tambahkan menu ke dalam pesanan
+        pesanan.push({
+            nama: menuNama,
+            harga: parseInt(menuHarga),
+            jumlah: jumlah
+        });
 
-            // Tampilkan pesan bahwa menu telah ditambahkan ke keranjang
-            alert('Menu ' + menuNama + ' ditambahkan ke keranjang!');
+        // Tampilkan pesan bahwa menu telah ditambahkan ke keranjang
+        alert('Menu ' + menuNama + ' ditambahkan ke keranjang!');
 
-            // Tutup modal pemesanan setelah menambahkan menu ke keranjang
-            document.getElementById('modalPemesanan').style.display = 'none';
-          }
+        // Tutup modal pemesanan setelah menambahkan menu ke keranjang
+        document.getElementById('modalPemesanan').style.display = 'none';
+    }
 
-          // Fungsi untuk menampilkan daftar menu yang dipilih dalam modal pembayaran
-          function tampilkanDaftarMenu() {
-            var daftarMenuPilihan = document.getElementById('daftarMenuPilihan');
-            daftarMenuPilihan.innerHTML = ''; // Kosongkan daftar terlebih dahulu
+    // Fungsi untuk menampilkan daftar menu yang dipilih dalam modal pembayaran
+    function tampilkanDaftarMenu() {
+        var daftarMenuPilihan = document.getElementById('daftarMenuPilihan');
+        daftarMenuPilihan.innerHTML = ''; // Kosongkan daftar terlebih dahulu
 
-            pesanan.forEach(function(item) {
-              var li = document.createElement('li');
-              li.textContent = item.nama + ' - Rp ' + item.harga;
-              daftarMenuPilihan.appendChild(li);
-            });
-          }
+        pesanan.forEach(function(item) {
+            var li = document.createElement('li');
+            li.textContent = item.nama + ' - Rp ' + item.harga;
+            daftarMenuPilihan.appendChild(li);
+        });
+    }
 
-          // Fungsi untuk menghitung subtotal dan total berdasarkan pesanan
-          function hitungSubtotalDanTotal() {
-            var subtotal = 0;
-            pesanan.forEach(function(item) {
-              subtotal += item.harga * item.jumlah;
-            });
-            var total = subtotal;
+    // Fungsi untuk menghitung subtotal dan total berdasarkan pesanan
+    function hitungSubtotalDanTotal() {
+        var subtotal = 0;
+        pesanan.forEach(function(item) {
+            subtotal += item.harga * item.jumlah;
+        });
+        var total = subtotal;
 
-            document.getElementById('subtotal').value = subtotal.toLocaleString('id-ID', {
-              style: 'currency',
-              currency: 'IDR'
-            });
-            document.getElementById('total').value = total.toLocaleString('id-ID', {
-              style: 'currency',
-              currency: 'IDR'
-            });
-          }
+        document.getElementById('subtotal').value = subtotal.toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR'
+        });
+        document.getElementById('total').value = total.toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR'
+        });
+    }
 
-          // Fungsi untuk memproses pembayaran
-          function prosesPembayaran() {
-            var namaCustomer = document.getElementById('namaCustomer').value;
-            var tanggalPemesanan = document.getElementById('tanggalPemesanan').value;
-            var total = document.getElementById('total').value.replace(/[^0-9,-]+/g, ""); // Hapus simbol mata uang
+    // Fungsi untuk memproses pembayaran
+// Fungsi untuk memproses pembayaran
+function prosesPembayaran() {
+  var namaCustomer = document.getElementById('namaCustomer').value;
+  var metodePembayaran = document.getElementById('metodePembayaran').value; // Ambil nilai dari dropdown metode pembayaran
+  var total = document.getElementById('total').value.replace(/[^0-9,-]+/g, ""); // Hapus simbol mata uang
 
-            // Data yang akan dikirim
-            var data = {
-              namaCustomer: namaCustomer,
-              tanggalPemesanan: tanggalPemesanan,
-              total: total
-            };
+  // Mengambil tanggal dan waktu sekarang
+  var tanggalPemesanan = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
 
-            // Buat permintaan POST untuk mengirim data ke server
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "submit_pesanan.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                alert(xhr.responseText);
-                $('#cartModal').modal('hide'); // Tutup modal pembayaran setelah proses
-                pesanan = []; // Reset pesanan setelah diproses
-                tampilkanDaftarMenu(); // Update tampilan daftar menu
-                hitungSubtotalDanTotal(); // Hitung ulang subtotal dan total
-              }
-            };
-            xhr.send("namaCustomer=" + encodeURIComponent(data.namaCustomer) +
-              "&tanggalPemesanan=" + encodeURIComponent(data.tanggalPemesanan) +
-              "&total=" + encodeURIComponent(data.total) +
-              "&pesanan=" + JSON.stringify(data.pesanan));
-          }
-          // Buat permintaan POST untuk mengirim data ke server menggunakan fetch API
-          fetch('submit_pesanan.php', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
-            })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Terjadi kesalahan saat menyimpan data.');
-              }
-              return response.json(); // Mengembalikan respons JSON dari server (opsional)
-            })
-            .then(data => {
-              // Lakukan sesuatu setelah proses pembayaran selesai, misalnya tampilkan pesan sukses
-              alert('Pembayaran berhasil diproses!');
-              $('#cartModal').modal('hide'); // Tutup modal pembayaran setelah proses
-              resetForm(); // Atau reset formulir atau lakukan operasi lain yang diperlukan
-            })
-            .catch(error => {
-              console.error('Error:', error);
-              alert('Terjadi kesalahan saat menyimpan data.'); // Tampilkan pesan kesalahan
-            });
-          // Fungsi untuk mereset formulir setelah proses pembayaran selesai
-          function resetForm() {
-            document.getElementById('namaCustomer').value = '';
-            document.getElementById('tanggalPemesanan').value = '';
-            document.getElementById('subtotal').value = '';
-            document.getElementById('total').value = '';
-          }
-        </script>
+  // Data yang akan dikirim
+  var data = {
+    namaCustomer: namaCustomer,
+    tanggalPemesanan: tanggalPemesanan, // Menggunakan tanggal sekarang
+    total: total,
+    pesanan: pesanan, // Menambahkan pesanan ke dalam data
+    metodePembayaran: metodePembayaran // Menambahkan metode pembayaran ke dalam data
+  };
+
+  // Buat permintaan POST untuk mengirim data ke server menggunakan fetch API
+  fetch('submit_pesanan.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Pembayaran berhasil diproses!');
+      }
+      return response.json(); // Mengembalikan respons JSON dari server (opsional)
+    })
+    .then(data => {
+      // Lakukan sesuatu setelah proses pembayaran selesai, misalnya tampilkan pesan sukses
+      alert('Pembayaran berhasil diproses!');
+      $('#cartModal').modal('hide'); // Tutup modal pembayaran setelah proses
+      resetForm(); // Atau reset formulir atau lakukan operasi lain yang diperlukan
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Pembayaran berhasil diproses!'); // Tampilkan pesan kesalahan
+    });
+}
+
+    // Fungsi untuk mereset formulir setelah proses pembayaran selesai
+    function resetForm() {
+        document.getElementById('namaCustomer').value = '';
+        document.getElementById('tanggalPemesanan').value = '';
+        document.getElementById('subtotal').value = '';
+        document.getElementById('total').value = '';
+    }
+</script>
+
 
         <script>
           $(document).ready(function() {
