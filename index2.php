@@ -602,7 +602,7 @@ function isiDropdownMenu(pesanan) {
             alert('Ulasan berhasil dikirim!');
             $('#ulasanModal').modal('hide');
             resetUlasanForm();
-            window.location.href = 'index.php'; // Redirect ke index.php setelah mengirim ulasan
+            window.location.href = 'index2.php'; // Redirect ke index.php setelah mengirim ulasan
         } else {
             alert('Gagal mengirim ulasan: ' + data);
         }
