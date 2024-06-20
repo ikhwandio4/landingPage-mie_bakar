@@ -263,13 +263,6 @@
                 <label for="namaCustomer">Nama Customer:</label>
                 <input type="text" id="namaCustomer" class="form-control" required>
               </div>
-
-              <!-- Input Tanggal
-              <div class="form-group">
-                <label for="tanggalPemesanan">Tanggal Pemesanan:</label>
-                <input type="date" id="tanggalPemesanan" class="form-control" required>
-              </div> -->
-
               <!-- Dropdown untuk Metode Pembayaran -->
               <div class="form-group">
                 <label for="metodePembayaran">Metode Pembayaran:</label>
@@ -298,6 +291,58 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal Ulasan -->
+<div class="modal fade" id="ulasanModal" tabindex="-1" role="dialog" aria-labelledby="ulasanModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ulasanModalLabel">Beri Ulasan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="ulasanForm">
+          <div class="form-group">
+            <label for="namaUlasan">Nama:</label>
+            <input type="text" id="namaUlasan" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="menuUlasan">Menu:</label>
+            <select id="menuUlasan" class="form-control" required>
+              <option value="">Pilih Menu</option>
+              <!-- Opsi menu akan diisi secara dinamis -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ratingUlasan">Rating:</label>
+            <div class="rating">
+              <input type="radio" id="star5" name="ratingUlasan" value="5" />
+              <label for="star5" title="Sangat Baik">&#9733;</label>
+              <input type="radio" id="star4" name="ratingUlasan" value="4" />
+              <label for="star4" title="Baik">&#9733;</label>
+              <input type="radio" id="star3" name="ratingUlasan" value="3" />
+              <label for="star3" title="Cukup">&#9733;</label>
+              <input type="radio" id="star2" name="ratingUlasan" value="2" />
+              <label for="star2" title="Buruk">&#9733;</label>
+              <input type="radio" id="star1" name="ratingUlasan" value="1" />
+              <label for="star1" title="Sangat Buruk">&#9733;</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ulasanText">Ulasan:</label>
+            <textarea id="ulasanText" class="form-control" rows="3" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onclick="submitUlasan()">Kirim Ulasan</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
       <script>
@@ -410,136 +455,80 @@
     }
 
     function prosesPembayaran() {
-  var namaCustomer = document.getElementById('namaCustomer').value;
-  var metodePembayaran = document.getElementById('metodePembayaran').value;
-  var total = document.getElementById('total').value.replace(/[^0-9,-]+/g, "");
-  var tanggalPemesanan = new Date().toISOString().slice(0, 10);
+        var namaCustomer = document.getElementById('namaCustomer').value;
+        var metodePembayaran = document.getElementById('metodePembayaran').value;
+        var total = document.getElementById('total').value.replace(/[^0-9,-]+/g, "");
+        var tanggalPemesanan = new Date().toISOString().slice(0, 10);
 
-  var data = {
-    namaCustomer: namaCustomer,
-    tanggalPemesanan: tanggalPemesanan,
-    total: total,
-    pesanan: pesanan,
-    metodePembayaran: metodePembayaran
-  };
+        var data = {
+            namaCustomer: namaCustomer,
+            tanggalPemesanan: tanggalPemesanan,
+            total: total,
+            pesanan: pesanan,
+            metodePembayaran: metodePembayaran
+        };
 
-  fetch('submit_pesanan.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === 'success') {
-      alert(data.message);
-      $('#cartModal').modal('hide');
-      resetForm();
+        fetch('submit_pesanan.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(data.message);
+                $('#cartModal').modal('hide');
+                resetForm();
 
-      // Simpan informasi pemesanan dalam localStorage
-      localStorage.setItem('pemesanan', JSON.stringify(data.pemesanan));
+                // Simpan informasi pemesanan dalam localStorage
+                localStorage.setItem('pemesanan', JSON.stringify(data.pemesanan));
 
-      // Tampilkan modal ulasan
-      tampilkanModalUlasan();
-    } else {
-      alert(data.message);
+                // Tampilkan modal ulasan
+                tampilkanModalUlasan();
+            } else {
+                alert(data.message);
+            }
+        })
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('Terjadi kesalahan dalam proses pembayaran!');
-  });
-}
 
-// Fungsi untuk menampilkan modal ulasan
-function tampilkanModalUlasan() {
-  // Periksa apakah ada informasi pemesanan dalam localStorage
-  var pemesanan = JSON.parse(localStorage.getItem('pemesanan'));
-  if (pemesanan) {
-    // Tampilkan modal ulasan dan isi dropdown menu
-    $('#ulasanModal').modal('show');
-    isiDropdownMenu(pemesanan.pesanan);
-  } else {
-    alert('Anda belum melakukan pemesanan.');
-  }
-}
+    // Fungsi untuk menampilkan modal ulasan
+    function tampilkanModalUlasan() {
+        // Periksa apakah ada informasi pemesanan dalam localStorage
+        var pemesanan = JSON.parse(localStorage.getItem('pemesanan'));
+        if (pemesanan) {
+            // Tampilkan modal ulasan dan isi dropdown menu
+            $('#ulasanModal').modal('show');
+            isiDropdownMenu(pemesanan.pesanan);
+        } else {
+            alert('Anda belum melakukan pemesanan.');
+        }
+    }
 
-function isiDropdownMenu(pesanan) {
-  var menuUlasan = document.getElementById('menuUlasan');
+    function isiDropdownMenu(pesanan) {
+        var menuUlasan = document.getElementById('menuUlasan');
 
-  // Kosongkan dropdown terlebih dahulu
-  menuUlasan.innerHTML = '<option value="">Pilih Menu</option>';
+        // Kosongkan dropdown terlebih dahulu
+        menuUlasan.innerHTML = '<option value="">Pilih Menu</option>';
 
-  // Isi dropdown dengan daftar menu dari pesanan
-  pesanan.forEach(function(item) {
-    var option = document.createElement('option');
-    option.value = item.nama;
-    option.textContent = item.nama;
-    menuUlasan.appendChild(option);
-  });
-}
+        // Isi dropdown dengan daftar menu dari pesanan
+        pesanan.forEach(function(item) {
+            var option = document.createElement('option');
+            option.value = item.nama;
+            option.textContent = item.nama;
+            menuUlasan.appendChild(option);
+        });
+    }
+
     // Fungsi untuk mereset formulir setelah proses pembayaran selesai
     function resetForm() {
         document.getElementById('namaCustomer').value = '';
         document.getElementById('tanggalPemesanan').value = '';
         document.getElementById('subtotal').value = '';
         document.getElementById('total').value = '';
-    }
+  }
 </script>
-
-<!-- Modal Ulasan -->
-<div class="modal fade" id="ulasanModal" tabindex="-1" role="dialog" aria-labelledby="ulasanModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ulasanModalLabel">Beri Ulasan</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="ulasanForm">
-          <div class="form-group">
-            <label for="namaUlasan">Nama:</label>
-            <input type="text" id="namaUlasan" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label for="menuUlasan">Menu:</label>
-            <select id="menuUlasan" class="form-control" required>
-              <option value="">Pilih Menu</option>
-              <!-- Opsi menu akan diisi secara dinamis -->
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="ratingUlasan">Rating:</label>
-            <div class="rating">
-              <input type="radio" id="star5" name="ratingUlasan" value="5" />
-              <label for="star5" title="Sangat Baik">&#9733;</label>
-              <input type="radio" id="star4" name="ratingUlasan" value="4" />
-              <label for="star4" title="Baik">&#9733;</label>
-              <input type="radio" id="star3" name="ratingUlasan" value="3" />
-              <label for="star3" title="Cukup">&#9733;</label>
-              <input type="radio" id="star2" name="ratingUlasan" value="2" />
-              <label for="star2" title="Buruk">&#9733;</label>
-              <input type="radio" id="star1" name="ratingUlasan" value="1" />
-              <label for="star1" title="Sangat Buruk">&#9733;</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="ulasanText">Ulasan:</label>
-            <textarea id="ulasanText" class="form-control" rows="3" required></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="button" class="btn btn-primary" onclick="submitUlasan()">Kirim Ulasan</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 
         <script>
           $(document).ready(function() {
@@ -596,63 +585,6 @@ function isiDropdownMenu(pesanan) {
 
         <!-- Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-        <script>
-          $(document).ready(function() {
-            var keranjang = [];
-
-            $('.btn-pesan').click(function() {
-              var namaMenu = $(this).closest('.image').find('h4').text();
-              var jumlah = $(this).closest('.image').find('.jumlah-input').val();
-              var harga = $(this).closest('.image').find('p:last-child').text().replace(/[^0-9,-]+/g, '').replace(/,/g, '');
-              var subtotal = jumlah * parseInt(harga);
-
-              // Tambahkan pesanan ke keranjang
-              keranjang.push({
-                namaMenu: namaMenu,
-                jumlah: jumlah,
-                harga: harga,
-                subtotal: subtotal
-              });
-
-              // Tampilkan modal dengan detail pesanan
-              var modalBody = $('#pesananModal .modal-body');
-              modalBody.html('<p><strong>Nama Menu:</strong> ' + namaMenu + '</p>');
-              modalBody.append('<p><strong>Jumlah:</strong> ' + jumlah + '</p>');
-              modalBody.append('<p><strong>Subtotal:</strong> Rp ' + subtotal.toLocaleString('id-ID') + '</p>');
-
-              $('#pesananModal').modal('show');
-            });
-
-            $('#tambahKeranjang').click(function() {
-              $('#pesananModal').modal('hide');
-            });
-
-            $('#bayar').click(function() {
-              var totalHarga = 0;
-              $.each(keranjang, function(index, pesanan) {
-                totalHarga += pesanan.subtotal;
-              });
-
-              $('#total-harga').val(totalHarga.toLocaleString('id-ID'));
-              $('#pembayaranModal').modal('show');
-            });
-
-            $('#form-pembayaran').submit(function(event) {
-              event.preventDefault();
-              var namaPembeli = $('#nama-pembeli').val();
-              var totalHarga = $('#total-harga').val().replace(/[^0-9,-]+/g, '').replace(/,/g, '');
-
-              // Lakukan proses pembayaran di sini
-              // Misalnya, kirim data ke server menggunakan AJAX atau redirect ke halaman lain
-
-              alert('Terima kasih, ' + namaPembeli + '! Pembayaran sebesar Rp ' + totalHarga + ' telah berhasil.');
-              keranjang = []; // Kosongkan keranjang setelah pembayaran berhasil
-            });
-          });
-        </script>
-
-
 
       </article>
       <article id="menu-fav" class="menu-fav">

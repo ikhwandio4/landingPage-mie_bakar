@@ -1,6 +1,18 @@
 <?php
 // Include file untuk koneksi ke database dan fungsi-fungsi yang diperlukan
 include 'koneksi.php';
+if (isset($_GET['hapus'])) {
+  $id_pemesanan = $_GET['hapus'];
+  $query = "DELETE FROM reservasi WHERE id = ?";
+  $stmt = $conn->prepare($query);
+  $stmt->bind_param("i", $id_pemesanan);
+  if ($stmt->execute()) {
+      echo "<script>alert('Data berhasil dihapus.'); window.location='reservasi-list.php';</script>";
+  } else {
+      echo "<script>alert('Gagal menghapus data.'); window.location='reservasi-list.php';</script>";
+  }
+  $stmt->close();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

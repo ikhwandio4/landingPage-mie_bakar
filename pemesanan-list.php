@@ -1,6 +1,18 @@
 <?php
 // Include file untuk koneksi ke database dan fungsi-fungsi yang diperlukan
 include 'koneksi.php';
+if (isset($_GET['hapus'])) {
+  $id_pemesanan = $_GET['hapus'];
+  $query = "DELETE FROM pemesanan WHERE id_pemesanan = ?";
+  $stmt = $conn->prepare($query);
+  $stmt->bind_param("i", $id_pemesanan);
+  if ($stmt->execute()) {
+      echo "<script>alert('Data berhasil dihapus.'); window.location='pemesanan-list.php';</script>";
+  } else {
+      echo "<script>alert('Gagal menghapus data.'); window.location='pemesanan-list.php';</script>";
+  }
+  $stmt->close();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +64,7 @@ include 'koneksi.php';
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                     <thead class="thead-light">
                       <tr>
-                        <th>ID Pemesanan</th>
+                        <th>No</th>
                         <th>Nama Pelanggan</th>
                         <th>Tanggal Pemesanan</th>
                         <th>Total Pembayaran</th>
@@ -68,9 +80,10 @@ include 'koneksi.php';
                       $result = $conn->query($query);
 
                       if ($result->num_rows > 0) {
+                        $no = 1;
                         while ($row = $result->fetch_assoc()) {
                           echo "<tr>";
-                          echo "<td>" . $row['id_pemesanan'] . "</td>";
+                          echo "<td>" . $no . "</td>";
                           echo "<td>" . $row['nama_pelanggan'] . "</td>";
                           echo "<td>" . $row['tanggal_pesan'] . "</td>";
                           echo "<td>" . number_format($row['total_pembayaran'], 0, ',', '.') . "</td>";
@@ -80,6 +93,7 @@ include 'koneksi.php';
                           echo "<a href='pemesanan-list.php?hapus=" . $row['id_pemesanan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus pemesanan ini?\")'>Hapus</a>";
                           echo "</td>";
                           echo "</tr>";
+                          $no++;
                         }
                       } else {
                         echo "<tr><td colspan='6'>Belum ada data pemesanan.</td></tr>";
