@@ -63,7 +63,7 @@
             <a href="#menu-fav">Best Seller</a>
           </li>
           <li>
-            <a href="#kontak">Ulasan</a>
+          <a href="#" data-toggle="modal" data-target="#ulasanModal">Ulasan</a>
           </li>
           <li>
             <a href="#reservasi">Reservasi</a>
@@ -187,6 +187,15 @@
             justify-content: center;
             align-items: center;
           }
+          .modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-footer .btn {
+    margin: 0 10px; /* Sesuaikan margin antara tombol jika perlu */
+  }
         </style>
         </head>
         <?php
@@ -275,55 +284,55 @@
           }
         </style>
 
-        <!-- Modal Pembayaran -->
-        <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="pembayaranModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="pembayaranModalLabel">Pembayaran</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Daftar Menu yang Dipilih -->
-              <ul id="daftarMenuPilihan"></ul>
+      <!-- Modal Pembayaran -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="pembayaranModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pembayaranModalLabel">Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Daftar Menu yang Dipilih -->
+        <ul id="daftarMenuPilihan"></ul>
 
-              <!-- Input Nama -->
-              <div class="form-group">
-                <label for="namaCustomer">Nama Customer:</label>
-                <input type="text" id="namaCustomer" class="form-control" required>
-              </div>
-              <!-- Dropdown untuk Metode Pembayaran -->
-              <div class="form-group">
-                <label for="metodePembayaran">Metode Pembayaran:</label>
-                <select id="metodePembayaran" class="form-control" required>
-                  <option value="">Pilih Metode Pembayaran</option>
-                  <option value="cash">Cash</option>
-                  <option value="qris">QRIS</option>
-                  <option value="transfer">Transfer Bank</option>
-                </select>
-              </div>
+        <!-- Input Nama -->
+        <div class="form-group">
+          <label for="namaCustomer">Nama Customer:</label>
+          <input type="text" id="namaCustomer" class="form-control" required>
+        </div>
+        <!-- Dropdown untuk Metode Pembayaran -->
+        <div class="form-group">
+          <label for="metodePembayaran">Metode Pembayaran:</label>
+          <select id="metodePembayaran" class="form-control" required>
+            <option value="">Pilih Metode Pembayaran</option>
+            <option value="cash">Cash</option>
+            <option value="qris">QRIS</option>
+            <option value="transfer">Transfer Bank</option>
+          </select>
+        </div>
 
-              <!-- Subtotal dan Total -->
-              <div class="form-group">
-                <label for="subtotal">Subtotal:</label>
-                <input type="text" id="subtotal" class="form-control" readonly>
-              </div>
-              <div class="form-group">
-                <label for="total">Total:</label>
-                <input type="text" id="total" class="form-control" readonly>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-warning" data-dismiss="modal">Tutup</button>
-              <button type="button" class="btn btn-primary" onclick="prosesPembayaran()">Proses Pembayaran</button>
-            </div>
-          </div>
+        <!-- Subtotal dan Total -->
+        <div class="form-group">
+          <label for="subtotal">Subtotal:</label>
+          <input type="text" id="subtotal" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+          <label for="total">Total:</label>
+          <input type="text" id="total" class="form-control" readonly>
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onclick="prosesPembayaran()">Proses Pembayaran</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-      <!-- Modal Ulasan -->
+<!-- Modal Ulasan -->
 <div class="modal fade" id="ulasanModal" tabindex="-1" role="dialog" aria-labelledby="ulasanModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -340,12 +349,13 @@
             <input type="text" id="namaUlasan" class="form-control" required>
           </div>
           <div class="form-group">
-            <label for="menuUlasan">Menu:</label>
-            <select id="menuUlasan" class="form-control" required>
-              <option value="">Pilih Menu</option>
-              <!-- Opsi menu akan diisi secara dinamis -->
-            </select>
-          </div>
+  <label for="menuUlasan">Menu:</label>
+  <select id="menuUlasan" class="form-control" required>
+    <option value="">Pilih Menu</option>
+    <!-- Opsi menu akan diisi secara dinamis -->
+  </select>
+</div>
+
           <div class="form-group">
             <label for="ratingUlasan">Rating:</label>
             <div class="rating">
@@ -486,79 +496,132 @@
     }
 
     function prosesPembayaran() {
-        var namaCustomer = document.getElementById('namaCustomer').value;
-        var metodePembayaran = document.getElementById('metodePembayaran').value;
-        var total = document.getElementById('total').value.replace(/[^0-9,-]+/g, "");
-        var tanggalPemesanan = new Date().toISOString().slice(0, 10);
+    var namaCustomer = document.getElementById('namaCustomer').value;
+    var metodePembayaran = document.getElementById('metodePembayaran').value;
+    var total = document.getElementById('total').value.replace(/[^0-9,-]+/g, "");
+    var tanggalPemesanan = new Date().toISOString().slice(0, 10);
 
-        var data = {
-            namaCustomer: namaCustomer,
-            tanggalPemesanan: tanggalPemesanan,
-            total: total,
-            pesanan: pesanan,
-            metodePembayaran: metodePembayaran
-        };
+    var data = {
+        namaCustomer: namaCustomer,
+        tanggalPemesanan: tanggalPemesanan,
+        total: total,
+        pesanan: pesanan,
+        metodePembayaran: metodePembayaran
+    };
 
-        fetch('submit_pesanan.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert(data.message);
-                $('#cartModal').modal('hide');
-                resetForm();
+    fetch('submit_pesanan.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert(data.message);
+            $('#cartModal').modal('hide');
+            resetForm();
 
-                // Simpan informasi pemesanan dalam localStorage
-                localStorage.setItem('pemesanan', JSON.stringify(data.pemesanan));
+            // Save the order information in localStorage
+            localStorage.setItem('pemesanan', JSON.stringify(data.pemesanan));
 
-                // Tampilkan modal ulasan
-                tampilkanModalUlasan();
-            } else {
-                alert(data.message);
-            }
-        })
-    }
+            // Display the review modal
+            $('#ulasanModal').modal('show'); // Menampilkan modal ulasan
+            isiDropdownMenu(pesanan);
 
-    // Fungsi untuk menampilkan modal ulasan
-    function tampilkanModalUlasan() {
-        // Periksa apakah ada informasi pemesanan dalam localStorage
-        var pemesanan = JSON.parse(localStorage.getItem('pemesanan'));
-        if (pemesanan) {
-            // Tampilkan modal ulasan dan isi dropdown menu
-            $('#ulasanModal').modal('show');
-            isiDropdownMenu(pemesanan.pesanan);
+  // Reset formulir pembayaran setelah selesai
+  resetForm();
         } else {
-            alert('Anda belum melakukan pemesanan.');
+            alert(data.message);
         }
+    });
+}
+
+
+  // Fungsi untuk menampilkan modal ulasan
+  function tampilkanModalUlasan() {
+    // Periksa apakah ada informasi pemesanan dalam localStorage
+    var pemesanan = JSON.parse(localStorage.getItem('pemesanan'));
+    if (pemesanan) {
+        // Tampilkan modal ulasan dan isi dropdown menu
+        $('#ulasanModal').modal('show');
+        isiDropdownMenu(pemesanan.pesanan);
+    } else {
+        alert('Anda belum melakukan pemesanan.');
     }
-
-    function isiDropdownMenu(pesanan) {
-        var menuUlasan = document.getElementById('menuUlasan');
-
-        // Kosongkan dropdown terlebih dahulu
-        menuUlasan.innerHTML = '<option value="">Pilih Menu</option>';
-
-        // Isi dropdown dengan daftar menu dari pesanan
-        pesanan.forEach(function(item) {
-            var option = document.createElement('option');
-            option.value = item.nama;
-            option.textContent = item.nama;
-            menuUlasan.appendChild(option);
-        });
-    }
-
-    // Fungsi untuk mereset formulir setelah proses pembayaran selesai
-    function resetForm() {
-        document.getElementById('namaCustomer').value = '';
-        document.getElementById('tanggalPemesanan').value = '';
-        document.getElementById('subtotal').value = '';
-        document.getElementById('total').value = '';
   }
+
+  // Fungsi untuk mengisi dropdown menu ulasan dengan opsi menu
+function isiDropdownMenu(pesanan) {
+  var menuUlasan = document.getElementById('menuUlasan');
+
+  // Kosongkan dropdown terlebih dahulu
+  menuUlasan.innerHTML = '<option value="">Pilih Menu</option>';
+
+  // Isi dropdown dengan daftar menu dari pesanan
+  pesanan.forEach(function(item) {
+    var option = document.createElement('option');
+    option.value = item.nama;
+    option.textContent = item.nama;
+    menuUlasan.appendChild(option);
+  });
+}
+
+
+  // Fungsi untuk mereset formulir setelah proses pembayaran selesai
+  function resetForm() {
+    document.getElementById('namaCustomer').value = '';
+    document.getElementById('metodePembayaran').value = '';
+    document.getElementById('subtotal').value = '';
+    document.getElementById('total').value = '';
+  }
+  
+  function submitUlasan() {
+    // Ambil data dari formulir ulasan
+    var namaUlasan = document.getElementById('namaUlasan').value;
+    var menuUlasan = document.getElementById('menuUlasan').value;
+    var ratingUlasan = document.querySelector('input[name="ratingUlasan"]:checked').value;
+    var ulasanText = document.getElementById('ulasanText').value;
+
+    // Buat objek ulasan untuk dikirim
+    var ulasan = new FormData();
+    ulasan.append('nama', namaUlasan);
+    ulasan.append('menu', menuUlasan);
+    ulasan.append('rating', ratingUlasan);
+    ulasan.append('ulasan', ulasanText);
+
+    // Kirim data ulasan ke server menggunakan AJAX
+    fetch('submit_testimoni.php', {
+        method: 'POST',
+        body: ulasan
+    })
+    .then(response => response.text()) // Menggunakan response.text() untuk menangani respons non-JSON
+    .then(data => {
+        if (data.includes('Ulasan berhasil dikirim!')) {
+            alert('Ulasan berhasil dikirim!');
+            $('#ulasanModal').modal('hide');
+            resetUlasanForm();
+            window.location.href = 'index.php'; // Redirect ke index.php setelah mengirim ulasan
+        } else {
+            alert('Gagal mengirim ulasan: ' + data);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat mengirim ulasan.');
+    });
+}
+
+// Fungsi untuk mereset formulir ulasan setelah pengiriman
+function resetUlasanForm() {
+    document.getElementById('namaUlasan').value = '';
+    document.getElementById('menuUlasan').value = '';
+    document.querySelector('input[name="ratingUlasan"]:checked').checked = false;
+    document.getElementById('ulasanText').value = '';
+}
+
+
 </script>
 
         <script>
@@ -869,130 +932,7 @@
 
 
 
-      <article id="kontak" class="card judul">
-
-        <h2>Ulasan pelanggan</h2>
-        <div class="kontak">
-          <div class="side">
-            <div class="sosmed">
-              <ul>
-                <!-- <li>
-                  <a href="#" id="menuButton"><i class="fas fa-utensils"></i></a>
-              </li>
-              <li>
-                  <a href="#" id="revenuButton"><i class="fas fa-calendar-alt"></i></a>
-              </li>
-              <li>
-                  <a href="#" id="feedbackButton"><i class="fas fa-comment"></i>
-              </li> -->
-                <li>
-                  <a href="https://wa.me/6281233488872"><i class="fab fa-whatsapp"></i></a>
-                </li>
-                <li>
-                  <a href="https://instagram.com/miebakarcelaket"><i class="fab fa-instagram"></i></a>
-                </li>
-              </ul>
-              </ul>
-            </div>
-          </div>
-
-          
-          <div class="email">
-            <form id="testimoniForm" action="submit_testimoni.php" method="POST">
-              <div class="form-group">
-                <label for="nama">Nama</label>
-                <input type="text" id="nama" name="nama" placeholder="Masukan nama anda" required>
-              </div>
-              <!-- <div class="form-group">
-            <label for="menu">Menu</label>
-            <input type="text" id="menu_id" name="menu_id" placeholder="Pilihan menu" required>
-        </div> -->
-              <?php
-              // Inline PHP code to fetch menu items and display in a dropdown
-              require_once 'menu.php';
-              $menus = ambilMenu($pdo);
-
-              ?>
-
-              <div class="form-group">
-                <label for="menu">Menu</label>
-                <select id="menu_id" name="menu" required>
-                  <option value="">Pilihan menu</option>
-                  <?php
-                  if (!empty($menus)) {
-                    foreach ($menus as $menu) {
-                      echo "<option value='" . $menu['nama'] . "'>" . $menu['nama'] . "</option>";
-                    }
-                  } else {
-                    echo "<option value=''>No Menu Available</option>";
-                  }
-                  ?>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="rating">Rating</label>
-                <div class="rating">
-                  <input type="radio" id="star5" name="rating" value="5" />
-                  <label for="star5" title="sangat baik">&#9733;</label>
-                  <input type="radio" id="star4" name="rating" value="4" />
-                  <label for="star4" title="baik">&#9733;</label>
-                  <input type="radio" id="star3" name="rating" value="3" />
-                  <label for="star3" title="sedang">&#9733;</label>
-                  <input type="radio" id="star2" name="rating" value="2" />
-                  <label for="star2" title="buruk">&#9733;</label>
-                  <input type="radio" id="star1" name="rating" value="1" />
-                  <label for="star1" title="sangat buruk">&#9733;</label>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="ulasan">Ulasan</label>
-                <textarea id="ulasan" name="ulasan" rows="10" placeholder="Masukan ulasan anda disini" required></textarea>
-              </div>
-              <button type="submit">Kirim</button>
-            </form>
-          </div>
-
-          <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-          <script>
-            document.getElementById("testimoniForm").addEventListener("submit", function(event) {
-              event.preventDefault(); // Prevent the default form submission
-
-              var form = this;
-
-              // Use Fetch API to submit form data
-              fetch(form.action, {
-                  method: form.method,
-                  body: new FormData(form)
-                })
-                .then(function(response) {
-                  // Check if response is OK
-                  if (response.ok) {
-                    // Reset form after successful submission
-                    form.reset();
-                    // Show sweet alert for success
-                    swal("Success!", "Ulasan berhasil dikirim!", "success");
-                  } else {
-                    // Show sweet alert for failure
-                    swal("Error!", "Gagal mengirim ulasan.", "error");
-                  }
-                })
-                .catch(function(error) {
-                  // Show sweet alert for errors
-                  swal("Error!", "Terjadi kesalahan.", "error");
-                });
-            });
-          </script>
-
-        </div>
-      </article>
-
-      <style>
-        .center-container {
-          display: grid;
-          justify-content: center;
-          align-items: center;
-        }
-      </style>
+      <!-- Modal Ulasan -->
 
 <article id="reservasi" class="card judul">
     <div class="center-container">
@@ -1110,60 +1050,6 @@
         .catch(error => {
             document.getElementById('available-seats').textContent = 'Error loading available tables';
         });
-
-    // // Form submission
-    // document.querySelector("form").addEventListener("submit", function(event) {
-    //     event.preventDefault(); // Prevent the default form submission
-
-    //     var form = this;
-
-    //     // Use Fetch API to submit form data
-    //     fetch(form.action, {
-    //         method: form.method,
-    //         body: new FormData(form)
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if (data.success) {
-    //             // Show sweet alert for success
-    //             swal("Success!", "Reservasi berhasil dikirim!", "success").then(() => {
-    //                 // Close the modal
-    //                 modalRevenu.style.display = "none";
-    //                 // Reset form after successful submission
-    //                 form.reset();
-    //             });
-
-    //             // Update available seats
-    //             fetch('get_available_seats.php')
-    //                 .then(response => response.json())
-    //                 .then(data => {
-    //                     document.getElementById('available-seats').textContent = 'Available seats: ' + data.available_seats;
-    //                 });
-    //         } else {
-    //             // Show sweet alert for failure
-    //             swal("Error!", data.message, "error");
-    //         }
-    //     })
-    //     .catch(function(error) {
-    //         // Show sweet alert for errors
-    //         swal("Error!", "Terjadi kesalahan.", "error");
-    //     });
-    // });
-    // $(document).ready(function() {
-    //         // Get URL parameters
-    //         const urlParams = new URLSearchParams(window.location.search);
-    //         const success = urlParams.get('success');
-    //         const message = urlParams.get('message');
-
-    //         if (success === 'true') {
-    //             swal("Success!", "Reservasi berhasil disimpan!", "success").then(() => {
-
-    //                 // Additional actions after the alert if needed
-    //             });
-    //         } else if (success === 'false' && message) {
-    //             swal("Error!", decodeURIComponent(message), "error");
-    //         }
-    //     });
 
         $(document).ready(function() {
             // Get URL parameters

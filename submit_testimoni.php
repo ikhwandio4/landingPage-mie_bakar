@@ -1,9 +1,6 @@
 <?php
 include 'koneksi.php';
 
-$sql_menu = "SELECT id_menu, nama , harga , deskripsi FROM menu";
-$result_pelanggan = $conn->query($sql_menu);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil data dari form
     $nama = $_POST['nama'];
@@ -16,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($sql) === TRUE) {
         echo "Ulasan berhasil dikirim!";
-        header("Location: index.php"); // Redirect ke halaman index.php
+        header("Location: index2.php"); // Redirect ke halaman index.php
         exit(); // Pastikan tidak ada kode lain yang dieksekusi setelah redirect
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;

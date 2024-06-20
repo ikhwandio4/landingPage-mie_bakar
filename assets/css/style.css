@@ -300,7 +300,7 @@ main{
 }
 
 /* KONTAK */
-.kontak {  
+.ulasanModal {  
   width: 100%;
   margin-inline: auto;
   padding: 2rem 4rem;
@@ -357,7 +357,7 @@ main{
   align-items: center;
 }
 
-.kontak form {
+.ulasanModal form {
   width: 400px;
   margin: 0 auto;
   padding: 20px;
@@ -535,11 +535,11 @@ footer{
     font-size: 18px;
   }
 
-  #kontak{
+  #ulasanModal{
     padding-top: 0;
   }
 
-  .kontak{
+  .ulasanModal{
     flex-direction: column;
     width: 80%;
   }
