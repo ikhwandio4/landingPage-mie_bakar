@@ -17,15 +17,29 @@ function ambilMenu() {
     $stmt = $pdo->query("SELECT * FROM menu");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function menu($pdo) {
-    $stmt = $pdo->query("SELECT id, nama FROM menu");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+function ambilMenuById($id_menu) {
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM menu WHERE id_menu = ?");
+    $stmt->execute([$id_menu]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 function tambahMenu($nama, $harga, $deskripsi, $image) {
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO menu (nama, harga, deskripsi, image) VALUES (?, ?, ?, ?)");
     return $stmt->execute([$nama, $harga, $deskripsi, $image]);
+}
+
+function updateMenu($id_menu, $nama, $harga, $deskripsi, $image = null) {
+    global $pdo;
+    if ($image) {
+        $stmt = $pdo->prepare("UPDATE menu SET nama = ?, harga = ?, deskripsi = ?, image = ? WHERE id_menu = ?");
+        return $stmt->execute([$nama, $harga, $deskripsi, $image, $id_menu]);
+    } else {
+        $stmt = $pdo->prepare("UPDATE menu SET nama = ?, harga = ?, deskripsi = ? WHERE id_menu = ?");
+        return $stmt->execute([$nama, $harga, $deskripsi, $id_menu]);
+    }
 }
 
 function hapusMenu($id_menu) {
@@ -75,3 +89,5 @@ function tambahPesanan($id_menu, $jumlah, $total_harga) {
     return $stmt->execute([$id_menu, $jumlah, $total_harga, $tanggal, $status]);
 }
 ?>
+
+

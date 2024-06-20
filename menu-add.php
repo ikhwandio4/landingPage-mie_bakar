@@ -68,6 +68,7 @@ include 'menu.php';
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="menu-list.php" class="btn btn-secondary">Cancel</a>
               </form>
 
                 </div>

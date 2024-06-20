@@ -34,10 +34,10 @@ include 'koneksi.php';
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Daftar Pemesanan</h1>
+            <h1 class="h3 mb-0 text-gray-800">Daftar Reservasi</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Pemesanan</li>
+              <li class="breadcrumb-item active" aria-current="page">Reservasi</li>
             </ol>
           </div>
 
@@ -46,43 +46,49 @@ include 'koneksi.php';
             <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">List Pemesanan</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">List Reservasi</h6>
                 </div>
                 <div class="table-responsive p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                     <thead class="thead-light">
                       <tr>
-                        <th>ID Pemesanan</th>
+                        <th>ID Reservasi</th>
                         <th>Nama Pelanggan</th>
-                        <th>Tanggal Pemesanan</th>
-                        <th>Total Pembayaran</th>
-                        <th>Metode Pembayaran</th>
+                        <th>No. Telepon</th>
+                        <th>Tanggal Reservasi</th>
+                        <th>Pukul</th>
+                        <th>Jumlah Orang</th>
+                        <th>Menu</th>
+                        <th>Meja</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <!-- Loop untuk menampilkan data pemesanan -->
+                      <!-- Loop untuk menampilkan data reservasi -->
                       <?php
-                      // Query untuk mengambil data pemesanan dari database
-                      $query = "SELECT * FROM pemesanan";
+                      // Query untuk mengambil data reservasi dari database
+                      $query = "SELECT * FROM reservasi";
                       $result = $conn->query($query);
 
                       if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                           echo "<tr>";
-                          echo "<td>" . $row['id_pemesanan'] . "</td>";
-                          echo "<td>" . $row['nama_pelanggan'] . "</td>";
-                          echo "<td>" . $row['tanggal_pesan'] . "</td>";
-                          echo "<td>" . number_format($row['total_pembayaran'], 0, ',', '.') . "</td>";
-                          echo "<td>" . $row['metode_pembayaran'] . "</td>";
+                          echo "<td>" . $row['id'] . "</td>";
+                          echo "<td>" . $row['nama'] . "</td>";
+                          echo "<td>" . $row['no_telepon'] . "</td>";
+                          echo "<td>" . $row['tanggal'] . "</td>";
+                          echo "<td>" . $row['pukul'] . "</td>";
+                          echo "<td>" . $row['jumlah_orang'] . "</td>";
+                          echo "<td>" . $row['menu'] . "</td>";
+                          echo "<td>" . $row['meja_id'] . "</td>";
                           echo "<td>";
-                          echo "<a href='pemesanan-edit.php?id=" . $row['id_pemesanan'] . "' class='btn btn-sm btn-warning'>Edit</a> ";
-                          echo "<a href='pemesanan-list.php?hapus=" . $row['id_pemesanan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus pemesanan ini?\")'>Hapus</a>";
+                          echo "<a href='reservasi-edit.php?id=" . $row['id'] . "' class='btn btn-sm btn-warning'>Edit</a> ";
+                          echo "<a href='reservasi-list.php?hapus=" . $row['id'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Apakah Anda yakin ingin menghapus reservasi ini?\")'>Hapus</a>";
                           echo "</td>";
                           echo "</tr>";
                         }
                       } else {
-                        echo "<tr><td colspan='6'>Belum ada data pemesanan.</td></tr>";
+                        echo "<tr><td colspan='9'>Belum ada data reservasi.</td></tr>";
                       }
                       ?>
                     </tbody>
@@ -121,9 +127,10 @@ include 'koneksi.php';
   <!-- Page level custom scripts -->
   <script>
     $(document).ready(function () {
+      $('#dataTable').DataTable(); // ID From dataTable 
       $('#dataTableHover').DataTable(); // ID From dataTable with Hover
     });
   </script>
 
-</body>
+  </body>
 </html>

@@ -409,51 +409,76 @@
         });
     }
 
-    // Fungsi untuk memproses pembayaran
-// Fungsi untuk memproses pembayaran
-function prosesPembayaran() {
+    function prosesPembayaran() {
   var namaCustomer = document.getElementById('namaCustomer').value;
-  var metodePembayaran = document.getElementById('metodePembayaran').value; // Ambil nilai dari dropdown metode pembayaran
-  var total = document.getElementById('total').value.replace(/[^0-9,-]+/g, ""); // Hapus simbol mata uang
+  var metodePembayaran = document.getElementById('metodePembayaran').value;
+  var total = document.getElementById('total').value.replace(/[^0-9,-]+/g, "");
+  var tanggalPemesanan = new Date().toISOString().slice(0, 10);
 
-  // Mengambil tanggal dan waktu sekarang
-  var tanggalPemesanan = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-
-  // Data yang akan dikirim
   var data = {
     namaCustomer: namaCustomer,
-    tanggalPemesanan: tanggalPemesanan, // Menggunakan tanggal sekarang
+    tanggalPemesanan: tanggalPemesanan,
     total: total,
-    pesanan: pesanan, // Menambahkan pesanan ke dalam data
-    metodePembayaran: metodePembayaran // Menambahkan metode pembayaran ke dalam data
+    pesanan: pesanan,
+    metodePembayaran: metodePembayaran
   };
 
-  // Buat permintaan POST untuk mengirim data ke server menggunakan fetch API
   fetch('submit_pesanan.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Pembayaran berhasil diproses!');
-      }
-      return response.json(); // Mengembalikan respons JSON dari server (opsional)
-    })
-    .then(data => {
-      // Lakukan sesuatu setelah proses pembayaran selesai, misalnya tampilkan pesan sukses
-      alert('Pembayaran berhasil diproses!');
-      $('#cartModal').modal('hide'); // Tutup modal pembayaran setelah proses
-      resetForm(); // Atau reset formulir atau lakukan operasi lain yang diperlukan
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Pembayaran berhasil diproses!'); // Tampilkan pesan kesalahan
-    });
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      alert(data.message);
+      $('#cartModal').modal('hide');
+      resetForm();
+
+      // Simpan informasi pemesanan dalam localStorage
+      localStorage.setItem('pemesanan', JSON.stringify(data.pemesanan));
+
+      // Tampilkan modal ulasan
+      tampilkanModalUlasan();
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Terjadi kesalahan dalam proses pembayaran!');
+  });
 }
 
+// Fungsi untuk menampilkan modal ulasan
+function tampilkanModalUlasan() {
+  // Periksa apakah ada informasi pemesanan dalam localStorage
+  var pemesanan = JSON.parse(localStorage.getItem('pemesanan'));
+  if (pemesanan) {
+    // Tampilkan modal ulasan dan isi dropdown menu
+    $('#ulasanModal').modal('show');
+    isiDropdownMenu(pemesanan.pesanan);
+  } else {
+    alert('Anda belum melakukan pemesanan.');
+  }
+}
+
+function isiDropdownMenu(pesanan) {
+  var menuUlasan = document.getElementById('menuUlasan');
+
+  // Kosongkan dropdown terlebih dahulu
+  menuUlasan.innerHTML = '<option value="">Pilih Menu</option>';
+
+  // Isi dropdown dengan daftar menu dari pesanan
+  pesanan.forEach(function(item) {
+    var option = document.createElement('option');
+    option.value = item.nama;
+    option.textContent = item.nama;
+    menuUlasan.appendChild(option);
+  });
+}
     // Fungsi untuk mereset formulir setelah proses pembayaran selesai
     function resetForm() {
         document.getElementById('namaCustomer').value = '';
@@ -462,6 +487,58 @@ function prosesPembayaran() {
         document.getElementById('total').value = '';
     }
 </script>
+
+<!-- Modal Ulasan -->
+<div class="modal fade" id="ulasanModal" tabindex="-1" role="dialog" aria-labelledby="ulasanModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ulasanModalLabel">Beri Ulasan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="ulasanForm">
+          <div class="form-group">
+            <label for="namaUlasan">Nama:</label>
+            <input type="text" id="namaUlasan" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="menuUlasan">Menu:</label>
+            <select id="menuUlasan" class="form-control" required>
+              <option value="">Pilih Menu</option>
+              <!-- Opsi menu akan diisi secara dinamis -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ratingUlasan">Rating:</label>
+            <div class="rating">
+              <input type="radio" id="star5" name="ratingUlasan" value="5" />
+              <label for="star5" title="Sangat Baik">&#9733;</label>
+              <input type="radio" id="star4" name="ratingUlasan" value="4" />
+              <label for="star4" title="Baik">&#9733;</label>
+              <input type="radio" id="star3" name="ratingUlasan" value="3" />
+              <label for="star3" title="Cukup">&#9733;</label>
+              <input type="radio" id="star2" name="ratingUlasan" value="2" />
+              <label for="star2" title="Buruk">&#9733;</label>
+              <input type="radio" id="star1" name="ratingUlasan" value="1" />
+              <label for="star1" title="Sangat Buruk">&#9733;</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ulasanText">Ulasan:</label>
+            <textarea id="ulasanText" class="form-control" rows="3" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onclick="submitUlasan()">Kirim Ulasan</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
         <script>
@@ -854,6 +931,8 @@ function prosesPembayaran() {
               </ul>
             </div>
           </div>
+
+          
           <div class="email">
             <form id="testimoniForm" action="submit_testimoni.php" method="POST">
               <div class="form-group">
@@ -951,172 +1030,165 @@ function prosesPembayaran() {
         }
       </style>
 
-      <article id="reservasi" class="card judul">
-        <div class="center-container">
-          <h3>Reservasi pelanggan</h3>
-          <button id="tambahReservasiBtn">Tambah Reservasi</button>
-        </div>
-        <div id="modalRevenu" class="modal">
-          <div class="modal-content">
+<article id="reservasi" class="card judul">
+    <div class="center-container">
+        <h3>Reservasi pelanggan</h3>
+        <button id="tambahReservasiBtn">Tambah Reservasi</button>
+    </div>
+    <div id="modalRevenu" class="modal">
+        <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Form Reservasi</h2>
-            <!-- Display available seats -->
-            <!-- <p id="available-seats"></p> -->
             <!-- Form fields untuk reservasi -->
             <form action="submit_reservasi.php" method="POST">
-              <div class="form-group">
-                <label for="nama">Nama:</label>
-                <input type="text" id="nama" name="nama" required>
-              </div>
-              <div class="form-group">
-                <label for="no_telepon">No. Telepon:</label>
-                <input type="tel" id="no_telepon" name="no_telepon" required>
-              </div>
-              <div class="form-group">
-                <label for="tanggal">Tanggal:</label>
-                <input type="date" id="tanggal" name="tanggal" required>
-              </div>
-              <div class="form-group">
-                <label for="pukul">Pukul:</label>
-                <input type="time" id="pukul" name="pukul" required>
-              </div>
-              <div class="form-group">
-                <label for="menu">Menu</label>
-                <select id="menu_id" name="menu" required>
-                  <option value="">Pilihan menu</option>
-                  <?php
-                  require_once 'menu.php';
-                  $menus = ambilMenu($conn);
-                  if (!empty($menus)) {
-                    foreach ($menus as $menu) {
-                      echo "<option value='" . $menu['nama'] . "'>" . $menu['nama'] . "</option>";
-                    }
-                  } else {
-                    echo "<option value=''>No Menu Available</option>";
-                  }
-                  ?>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="jumlah_orang">Jumlah Orang:</label>
-                <input type="number" id="jumlah" name="jumlah_orang" required>
-              </div>
-              <div class="form-group">
-                <label for="meja">Pilih Meja:</label>
-                <select class="form-control" id="meja" name="meja" required>
-                  <option value="1">Meja 1</option>
-                  <option value="2">Meja 2</option>
-                  <option value="3">Meja 3</option>
-                  <option value="4">Meja 4</option>
-                  <option value="5">Meja 5</option>
-                  <option value="6">Meja 6</option>
-                  <option value="7">Meja 7</option>
-                  <option value="8">Meja 8</option>
-                </select>
-              </div>
-              <button type="submit">Simpan</button>
-              <button type="button" class="back-button">Kembali</button>
+                <div class="form-group">
+                    <label for="nama">Nama:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
+                <div class="form-group">
+                    <label for="no_telepon">No. Telepon:</label>
+                    <input type="tel" id="no_telepon" name="no_telepon" required>
+                </div>
+                <div class="form-group">
+                    <label for="tanggal">Tanggal:</label>
+                    <input type="date" id="tanggal" name="tanggal" required>
+                </div>
+                <div class="form-group">
+                    <label for="pukul">Pukul:</label>
+                    <input type="time" id="pukul" name="pukul" required>
+                </div>
+                <div class="form-group">
+                    <label for="menu">Menu</label>
+                    <select id="menu_id" name="menu" required>
+                        <option value="">Pilihan menu</option>
+                        <?php
+                        require_once 'menu.php';
+                        $menus = ambilMenu($conn);
+                        if (!empty($menus)) {
+                            foreach ($menus as $menu) {
+                                echo "<option value='" . $menu['nama'] . "'>" . $menu['nama'] . "</option>";
+                            }
+                        } else {
+                            echo "<option value=''>No Menu Available</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="jumlah_orang">Jumlah Orang:</label>
+                    <input type="number" id="jumlah" name="jumlah_orang" required>
+                </div>
+                <div class="form-group">
+                    <label for="meja">Pilih Meja:</label>
+                    <select class="form-control" id="meja" name="meja_id" required>
+                        <option value="1">Meja 1</option>
+                        <option value="2">Meja 2</option>
+                        <option value="3">Meja 3</option>
+                        <option value="4">Meja 4</option>
+                        <option value="5">Meja 5</option>
+                        <option value="6">Meja 6</option>
+                        <option value="7">Meja 7</option>
+                        <option value="8">Meja 8</option>
+                    </select>
+                </div>
+                <button type="submit">Simpan</button>
+                <button type="button" class="back-button">Kembali</button>
             </form>
-          </div>
         </div>
-      </article>
+    </div>
+</article>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    // Get the modal
+    var modalRevenu = document.getElementById("modalRevenu");
 
-      <!-- alert untuk kritik dan saran -->
-      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-      <script>
-        // Get the modal
-        var modalRevenu = document.getElementById("modalRevenu");
-        var modalFeedback = document.getElementById("modalFeedback");
+    // Get the button that opens the modal
+    var tambahReservasiBtn = document.getElementById("tambahReservasiBtn");
 
-        // Get the button that opens the modal
-        var tambahReservasiBtn = document.getElementById("tambahReservasiBtn");
+    // Get the <span> element that closes the modal
+    var closeButtons = document.getElementsByClassName("close");
 
-        // Get the <span> element that closes the modal
-        var closeButtons = document.getElementsByClassName("close");
+    // When the user clicks the button, open the modal
+    tambahReservasiBtn.onclick = function() {
+        modalRevenu.style.display = "block";
+    }
 
-        // When the user clicks the button, open the modal
-        tambahReservasiBtn.onclick = function() {
-          modalRevenu.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        for (var i = 0; i < closeButtons.length; i++) {
-          closeButtons[i].onclick = function() {
+    // When the user clicks on <span> (x), close the modal
+    for (var i = 0; i < closeButtons.length; i++) {
+        closeButtons[i].onclick = function() {
             this.parentElement.parentElement.style.display = "none";
-          }
         }
+    }
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-          if (event.target == modalRevenu) {
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modalRevenu) {
             modalRevenu.style.display = "none";
-          }
         }
+    }
 
-        // Fetch available seats and update the display
-        fetch('get_available_seats.php')
-          .then(response => response.json())
-          .then(data => {
-            document.getElementById('available-seats').textContent = 'Available seats: ' + data.available_seats;
-          })
-          .catch(error => {
-            console.error('Error fetching available seats:', error);
-            document.getElementById('available-seats').textContent = 'Error loading available seats';
-          });
+    // Fetch available tables and update the select element
+    fetch('get_available_tables.php')
+        .then(response => response.json())
+        .then(data => {
+            const mejaSelect = document.getElementById('meja');
+            mejaSelect.innerHTML = ''; // Clear existing options
 
-        document.getElementById("formReservasi").addEventListener("submit", function(event) {
-          event.preventDefault(); // Prevent the default form submission
+            // Add available table options
+            data.forEach(table => {
+                const option = document.createElement('option');
+                option.value = table;
+                option.textContent = `Meja ${table}`;
+                mejaSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            document.getElementById('available-seats').textContent = 'Error loading available tables';
+        });
 
-          var form = this;
+    // Form submission
+    document.querySelector("form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-          // Use Fetch API to submit form data
-          fetch(form.action, {
-              method: form.method,
-              body: new FormData(form)
-            })
-            .then(function(response) {
-              // Check if response is OK
-              if (response.ok) {
-                // Reset form after successful submission
-                form.reset();
+        var form = this;
+
+        // Use Fetch API to submit form data
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
                 // Show sweet alert for success
-                swal("Success!", "Reservasi berhasil dikirim!", "success");
+                swal("Success!", "Reservasi berhasil dikirim!", "success").then(() => {
+                    // Close the modal
+                    modalRevenu.style.display = "none";
+                    // Reset form after successful submission
+                    form.reset();
+                });
 
                 // Update available seats
                 fetch('get_available_seats.php')
-                  .then(response => response.json())
-                  .then(data => {
-                    document.getElementById('available-seats').textContent = 'Available seats: ' + data.available_seats;
-                  })
-                  .catch(error => console.error('Error fetching available seats:', error));
-              } else {
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('available-seats').textContent = 'Available seats: ' + data.available_seats;
+                    });
+            } else {
                 // Show sweet alert for failure
-                swal("Error!", "Gagal menyimpan reservasi.", "error");
-              }
-            })
-            .catch(function(error) {
-              // Show sweet alert for errors
-              swal("Error!", "Terjadi kesalahan.", "error");
-            });
+                swal("Error!", data.message, "error");
+            }
+        })
+        .catch(function(error) {
+            // Show sweet alert for errors
+            swal("Error!", "Terjadi kesalahan.", "error");
         });
+    });
+</script>
 
-        // Get the feedback button that opens the feedback modal
-        var feedbackButton = document.getElementById("feedbackButton");
 
-        // When the user clicks the feedback button, open the feedback modal
-        feedbackButton.onclick = function(event) {
-          event.preventDefault(); // Prevent default link behavior
-          modalFeedback.style.display = "block";
-        }
 
-        // When the user clicks anywhere outside of the feedback modal, close it
-        window.onclick = function(event) {
-          if (event.target == modalFeedback) {
-            modalFeedback.style.display = "none";
-          }
-        }
-      </script>
 
 
       <style>
