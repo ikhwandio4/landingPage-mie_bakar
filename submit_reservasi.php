@@ -35,8 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($row['jumlah_reservasi'] > 0) {
         // Meja sudah direservasi
-        echo json_encode(['success' => false, 'message' => 'Maaf, meja yang dipilih sudah direservasi untuk tanggal dan waktu yang sama.']);
-        header("Location: index2.php");
+        header("Location: index2.php?success=false&message=Maaf%2C%20meja%20yang%20dipilih%20sudah%20direservasi%20untuk%20tanggal%20dan%20waktu%20yang%20sama.");
         exit();
     }
 
@@ -45,12 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssssiss", $nama, $no_telepon, $tanggal, $pukul, $jumlah_orang, $menu, $meja_id);
 
     if ($stmt->execute()) {
-        // Return JSON success response
-        echo json_encode(['success' => true]);
+        // Redirect to index2.php with success parameter
+        header("Location: index2.php?success=true");
+        exit();
     } else {
-        // Return JSON error response
-        echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan saat menyimpan reservasi.']);
-        header("Location: index2.php");
+        // Redirect to index2.php with error parameter and message
+        header("Location: index2.php?success=false&message=Terjadi%20kesalahan%20saat%20menyimpan%20reservasi.");
+        exit();
     }
 
     $stmt->close();

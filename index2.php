@@ -11,6 +11,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    .feedback-btn {
+      background-color: #f39c12;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .feedback-btn:hover {
+      background-color: #e67e22;
+    }
+
+  </style>
 
 </head>
 
@@ -775,6 +806,7 @@
 
 
       <style>
+        
         /* Tambahkan kode CSS berikut ke dalam file CSS Anda atau dalam tag <style> */
 
         .modal {
@@ -1028,7 +1060,7 @@
             </form>
         </div>
     </div>
-</article>
+                      </article>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
@@ -1079,50 +1111,123 @@
             document.getElementById('available-seats').textContent = 'Error loading available tables';
         });
 
-    // Form submission
-    document.querySelector("form").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent the default form submission
+    // // Form submission
+    // document.querySelector("form").addEventListener("submit", function(event) {
+    //     event.preventDefault(); // Prevent the default form submission
 
-        var form = this;
+    //     var form = this;
 
-        // Use Fetch API to submit form data
-        fetch(form.action, {
-            method: form.method,
-            body: new FormData(form)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Show sweet alert for success
-                swal("Success!", "Reservasi berhasil dikirim!", "success").then(() => {
-                    // Close the modal
-                    modalRevenu.style.display = "none";
-                    // Reset form after successful submission
-                    form.reset();
+    //     // Use Fetch API to submit form data
+    //     fetch(form.action, {
+    //         method: form.method,
+    //         body: new FormData(form)
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.success) {
+    //             // Show sweet alert for success
+    //             swal("Success!", "Reservasi berhasil dikirim!", "success").then(() => {
+    //                 // Close the modal
+    //                 modalRevenu.style.display = "none";
+    //                 // Reset form after successful submission
+    //                 form.reset();
+    //             });
+
+    //             // Update available seats
+    //             fetch('get_available_seats.php')
+    //                 .then(response => response.json())
+    //                 .then(data => {
+    //                     document.getElementById('available-seats').textContent = 'Available seats: ' + data.available_seats;
+    //                 });
+    //         } else {
+    //             // Show sweet alert for failure
+    //             swal("Error!", data.message, "error");
+    //         }
+    //     })
+    //     .catch(function(error) {
+    //         // Show sweet alert for errors
+    //         swal("Error!", "Terjadi kesalahan.", "error");
+    //     });
+    // });
+    // $(document).ready(function() {
+    //         // Get URL parameters
+    //         const urlParams = new URLSearchParams(window.location.search);
+    //         const success = urlParams.get('success');
+    //         const message = urlParams.get('message');
+
+    //         if (success === 'true') {
+    //             swal("Success!", "Reservasi berhasil disimpan!", "success").then(() => {
+
+    //                 // Additional actions after the alert if needed
+    //             });
+    //         } else if (success === 'false' && message) {
+    //             swal("Error!", decodeURIComponent(message), "error");
+    //         }
+    //     });
+
+        $(document).ready(function() {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const success = urlParams.get('success');
+            const message = urlParams.get('message');
+
+            if (success === 'true') {
+                swal({
+                    title: "Success!",
+                    text: "Reservasi berhasil disimpan!",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = 'index2.php';
                 });
-
-                // Update available seats
-                fetch('get_available_seats.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('available-seats').textContent = 'Available seats: ' + data.available_seats;
-                    });
-            } else {
-                // Show sweet alert for failure
-                swal("Error!", data.message, "error");
+            } else if (success === 'false' && message) {
+                swal({
+                    title: "Error!",
+                    text: decodeURIComponent(message),
+                    icon: "error"
+                }).then(() => {
+                    window.location.href = 'index2.php';
+                });
             }
-        })
-        .catch(function(error) {
-            // Show sweet alert for errors
-            swal("Error!", "Terjadi kesalahan.", "error");
         });
-    });
 </script>
+<style>
+.modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 60px;
+    }
 
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      border-radius: 10px;
+    }
 
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-
-
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+    }
+    </style>
       <style>
         .back-button {
           margin-top: 20px;
@@ -1337,73 +1442,6 @@
       </article>
     </aside>
   </main>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-
-    footer {
-      background: #333;
-      color: white;
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    footer p {
-      margin: 0;
-    }
-
-    .feedback-btn {
-      background-color: #f39c12;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .feedback-btn:hover {
-      background-color: #e67e22;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-      padding-top: 60px;
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: 5% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 500px;
-      border-radius: 10px;
-    }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-    }
-  </style>
 
   <footer>
     <p>Mie Bakar Celaket ; JL.Tawangmangu No.4 Klojen Malang</p>
